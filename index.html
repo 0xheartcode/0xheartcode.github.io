@@ -1,1 +1,168 @@
-0xheartcode :3 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>0xheartcode - POKéDEV</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <div class="container">
+        <div id="main-menu" class="screen">
+            <div class="status-bar">
+                DEVéLOPER PAGE: 0xheartcode ▲▼ <span data-year></span>
+            </div>
+
+            <h1>MAIN MENU</h1>
+            
+            <div class="pixel-border">
+                <div class="menu-item" data-target="projects">
+                    ► PROJECTS
+                </div>
+                <div class="menu-item" data-target="skills">
+                    ► SKILLS
+                </div>
+                <div class="menu-item" data-target="contact">
+                    ► CONTACT
+                </div>
+                <div class="menu-item" data-target="about">
+                    ► ABOUT 
+                </div>
+            </div>
+
+            <div class="pixel-border" style="margin-top: 16px;">
+                <h2>ACTIVE PROJECTS</h2>
+                <div class="project-grid">
+                    <div class="menu-item">
+                        POKéAPI EXPLORER<br>
+                        <small>TYPE: REST API</small>
+                    </div>
+                    <div class="menu-item">
+                        CRYPTO TRACKER<br>
+                        <small>TYPE: BLOCKCHAIN</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="terminal" style="margin-top: 16px;">
+                > ./status_check.sh<br>
+                [✓] PYTHON 3.12<br>
+                [✓] NODE 20.0<br>
+                [⌛] CODING IN PROGRESS...
+            </div>
+        </div>
+
+        <!-- Projects Section -->
+        <div id="projects" class="screen" style="display: none;">
+            <div class="status-bar">
+                PROJECT DEX ▲▼ Use ARROW KEYS to navigate
+            </div>
+            <h1>PROJECT INDEX</h1>
+            <div class="pixel-border">
+                <div class="menu-item" data-target="main">
+                    ← BACK
+                </div>
+                <div class="project-grid">
+                    <div class="menu-item">
+                        <h3>POKéAPI EXPLORER</h3>
+                        <p>A RESTful API explorer with Pokémon type matching</p>
+                        <small>TECH: Python + FastAPI</small>
+                    </div>
+                    <div class="menu-item">
+                        <h3>CRYPTO TRACKER</h3>
+                        <p>Real-time blockchain analysis tool</p>
+                        <small>TECH: Rust + WebAssembly</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Skills Section -->
+        <div id="skills" class="screen" style="display: none;">
+            <div class="status-bar">
+                TECHNICAL TOOLS ▲▼ Select to view details
+            </div>
+            <h1>SKILL SET</h1>
+            <div class="pixel-border">
+                <div class="menu-item" data-target="main">
+                    ← BACK
+                </div>
+                <div class="project-grid">
+                    <div class="menu-item">
+                        <h3>PYTHON</h3>
+                        <p>LV. 92 ● Type: Scripting</p>
+                        <progress value="92" max="100"></progress>
+                    </div>
+                    <div class="menu-item">
+                        <h3>JAVASCRIPT</h3>
+                        <p>LV. 85 ● Type: Web</p>
+                        <progress value="85" max="100"></progress>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Section -->
+        <div id="contact" class="screen" style="display: none;">
+            <div class="status-bar">
+                COMMUNICATION DEVICE ▲▼ Select contact method
+            </div>
+            <h1>CONTACT METHODS</h1>
+            <div class="pixel-border">
+                <div class="menu-item" data-target="main">
+                    ← BACK
+                </div>
+                <div class="menu-item">
+                    <h3>TWITTER/X</h3>
+                    <a href="https://twitter.com/0xheartcode">@0xheartcode</a>
+                    <small>Social updates</small>
+                </div>
+                <div class="menu-item">
+                    <h3>TELEGRAM</h3>
+                    <a href="https://t.me/heartcodex0">t.me/heartcodex0</a>
+                    <small>Direct coms</small>
+                </div>
+                <div class="menu-item">
+                    <h3>GITHUB</h3>
+                    <a href="https://github.com/0xheartcode">github/0xheartcode</a>
+                    <small>Coding profile</small>
+                </div>
+            </div>
+        </div>
+
+        <div id="about" class="screen" style="display: none;">
+            <div class="status-bar">
+                PUBLIC INFORMATION ▲▼ 
+            </div>
+            <h1>CODEDEX PROFILE</h1>
+            <div class="pixel-border">
+                <div class="menu-item" data-target="main">
+                    ← BACK
+                </div>
+                <div class="terminal">
+                    > cat bio.txt<br>
+                    Backend Blockchain Developer<br><br>
+                    Specializing in Web3 systems and<br>
+                    smart contract architecture.<br><br>
+                    Core Stack:<br>
+                    ■ Solidity ■ TypeScript ■ Bash<br>
+                    ■ Node.js ■ React ■ Python<br><br>
+                    Building:<br>
+                    ▲ Decentralized protocols<br>
+                    ▲ Trading automation systems<br>
+                    ▲ Dev tooling <br>
+                </div>
+            </div>
+        </div>
+
+        <div class="status-bar" style="text-align: center;">
+            <marquee behavior="scroll" direction="left">
+                LATEST RELEASE: v1.5.3 ▲▼ 
+            </marquee>
+        </div>
+    </div>
+
+    <script src="scripts/app.js"></script>
+</body>
+</html>
