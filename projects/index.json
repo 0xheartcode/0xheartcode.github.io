@@ -11,7 +11,7 @@
     "id": "crypto-tracker",
     "name": "CRYPTO TRACKER",
     "shortDescription": "Real-time blockchain analysis tool",
-    "tech": ["Rust", "WebAssembly", "Blockchain"],
+    "tech": ["Rust", "WebAssembly", "bubble"],
     "status": "active",
     "slug": "crypto-tracker"
   },
