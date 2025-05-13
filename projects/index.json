@@ -1,0 +1,26 @@
+[
+  {
+    "id": "pokeapi-explorer",
+    "name": "POKéAPI EXPLORER",
+    "shortDescription": "A RESTful API explorer with Pokémon type matching",
+    "tech": ["Python", "FastAPI", "REST API"],
+    "status": "active",
+    "slug": "pokeapi-explorer"
+  },
+  {
+    "id": "crypto-tracker",
+    "name": "CRYPTO TRACKER",
+    "shortDescription": "Real-time blockchain analysis tool",
+    "tech": ["Rust", "WebAssembly", "Blockchain"],
+    "status": "active",
+    "slug": "crypto-tracker"
+  },
+  {
+    "id": "crypto-trackero",
+    "name": "CRYPTO TRACKERo",
+    "shortDescription": "Real-time blockchain analysis toolo",
+    "tech": ["Rust", "WebAssembly", "Blockchain"],
+    "status": "active",
+    "slug": "crypto-trackero"
+  }
+]

@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 loader.remove();
 
                 if(targetPage === 'skills') loadSkills();
+                if(targetPage === 'projects') loadProjects(); // Added projects loading
             }
         });
     });
@@ -41,6 +42,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if(page) page.style.display = 'none';
         });
         pages[targetPage].style.display = 'block';
+        
+        // Load data for the page if needed
+        if(targetPage === 'skills') loadSkills();
+        if(targetPage === 'projects') loadProjects();
     });
 
     // Initial page load from URL hash
@@ -52,6 +57,10 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             pages[targetPage].style.display = 'block';
             window.history.replaceState({ page: targetPage }, '', `#${targetPage}`);
+            
+            // Load data for the page if needed
+            if(targetPage === 'skills') loadSkills();
+            if(targetPage === 'projects') loadProjects();
         }
     }
     
@@ -102,6 +111,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 currentScreen = targetPage;
                 selectedItemIndex = 0;
                 updateSelectableItems();
+            } else {
+                // Check if this is a project link
+                const projectLink = selectedItem.querySelector('.project-link');
+                if (projectLink) {
+                    window.location.href = projectLink.getAttribute('href');
+                }
             }
         }
     }
@@ -120,6 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loader.remove();
 
         if (targetPage === 'skills') loadSkills();
+        if (targetPage === 'projects') loadProjects();
         
         // Update window history
         window.history.pushState({ page: targetPage }, '', `#${targetPage}`);
@@ -177,6 +193,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 event.preventDefault();
                 break;
+                
+            case 'B':
+            case 'b':
+                // Go back to main menu when on a project page
+                if (window.location.pathname.includes('/projects/')) {
+                    window.location.href = '../index.html#projects';
+                    event.preventDefault();
+                }
+                break;
         }
     });
     
@@ -221,28 +246,146 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // For skills section
 async function loadSkills() {
-    const response = await fetch('projects/');
-    const projects = await response.json();
+    try {
+        const response = await fetch('projects/index.json');
+        if (!response.ok) {
+            throw new Error('Failed to load projects data');
+        }
+        
+        const projects = await response.json();
 
-    const skillMap = new Map();
-    projects.forEach(project => {
-        project.tech.forEach(skill => {
-            skillMap.set(skill, (skillMap.get(skill) || 0) + 1);
+        const skillMap = new Map();
+        projects.forEach(project => {
+            project.tech.forEach(skill => {
+                skillMap.set(skill, (skillMap.get(skill) || 0) + 1);
+            });
         });
-    });
 
-    const skillsContainer = document.getElementById('skills-container');
-    skillsContainer.innerHTML = '';
+        const skillsContainer = document.getElementById('skills-container');
+        if (!skillsContainer) {
+            // If skills container doesn't exist, use the project-grid instead
+            const projectGrid = document.querySelector('#skills .project-grid');
+            if (projectGrid) {
+                projectGrid.innerHTML = '';
+                
+                skillMap.forEach((count, skill) => {
+                    const maxValue = Math.max(...Array.from(skillMap.values()));
+                    projectGrid.innerHTML += `
+                        <div class="menu-item">
+                            <h3>${skill}</h3>
+                            <p>Used in ${count} project${count !== 1 ? 's' : ''}</p>
+                            <progress value="${count}" max="${maxValue}"></progress>
+                        </div>
+                    `;
+                });
+            }
+        } else {
+            skillsContainer.innerHTML = '';
+            
+            skillMap.forEach((count, skill) => {
+                const maxValue = Math.max(...Array.from(skillMap.values()));
+                skillsContainer.innerHTML += `
+                    <div class="menu-item">
+                        <h3>${skill}</h3>
+                        <p>Used in ${count} project${count !== 1 ? 's' : ''}</p>
+                        <progress value="${count}" max="${maxValue}"></progress>
+                    </div>
+                `;
+            });
+        }
+    } catch (error) {
+        console.error('Error loading skills:', error);
+    }
+}
 
-    skillMap.forEach((count, skill) => {
-        skillsContainer.innerHTML += `
-            <div class="menu-item">
-                <h3>${skill}</h3>
-                <p>Used in ${count} projects</p>
-                <progress value="${count}" max="${Math.max(...skillMap.values())}"></progress>
-            </div>
-        `;
-    });
+// New function to load projects
+// Complete rewrite of loadProjects function
+async function loadProjects() {
+    try {
+        // Fetch projects from the JSON file
+        const response = await fetch('projects/index.json');
+        if (!response.ok) {
+            throw new Error('Failed to load projects');
+        }
+        
+        const projects = await response.json();
+        
+        // Get the projects container
+        const projectsContainer = document.getElementById('projects');
+        if (!projectsContainer) {
+            console.error('Projects container not found');
+            return;
+        }
+        
+        // Get (or create) the project grid
+        let projectGrid = projectsContainer.querySelector('.project-grid');
+        if (!projectGrid) {
+            // If no grid exists, create one
+            projectGrid = document.createElement('div');
+            projectGrid.className = 'project-grid';
+            projectsContainer.appendChild(projectGrid);
+        } else {
+            // Clear all existing content
+            projectGrid.innerHTML = '';
+        }
+        
+        // First, add the back button
+        const backButton = document.createElement('div');
+        backButton.className = 'menu-item';
+        backButton.setAttribute('data-target', 'main');
+        backButton.innerHTML = '← BACK';
+        
+        // Add click handler for back button
+        backButton.addEventListener('click', async () => {
+            const loader = document.createElement('div');
+            loader.className = 'loading-bar';
+            document.body.appendChild(loader);
+            loader.style.display = 'block';
+            
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            // Navigate back to main menu
+            const pages = {
+                main: document.getElementById('main-menu'),
+                projects: document.getElementById('projects'),
+                skills: document.getElementById('skills'),
+                contact: document.getElementById('contact'),
+                about: document.getElementById('about')
+            };
+            
+            Object.values(pages).forEach(page => {
+                if(page) page.style.display = 'none';
+            });
+            
+            pages.main.style.display = 'block';
+            loader.remove();
+        });
+        
+        projectGrid.appendChild(backButton);
+        
+        // Now add each project
+        projects.forEach(project => {
+            const techString = project.tech.slice(0, 2).join(' + ');
+            
+            const projectElement = document.createElement('div');
+            projectElement.className = 'menu-item';
+            projectElement.innerHTML = `
+                <h3>${project.name}</h3>
+                <p>${project.shortDescription}</p>
+                <small>TECH: ${techString}</small>
+                <a href="projects/${project.slug}.html" class="project-link">VIEW DETAILS</a>
+            `;
+            
+            projectGrid.appendChild(projectElement);
+        });
+        
+        // Update keyboard navigation
+        if (typeof updateSelectableItems === 'function') {
+            updateSelectableItems();
+        }
+    } catch (error) {
+        console.error('Error loading projects:', error);
+    }
 }
 
 document.querySelectorAll('[data-year]').forEach(el => {
