@@ -1,0 +1,205 @@
+/* Base responsive adjustments */
+@media (max-width: 768px) {
+  /* Container adjustments */
+  .container {
+    max-width: 100%;
+    margin: 0 auto;
+    box-shadow: none;
+  }
+
+  body {
+    padding: 0;
+    margin: 0;
+  }
+
+  /* Screen padding adjustments */
+  .screen {
+    padding: 15px;
+    min-height: auto;
+  }
+
+  /* Typography adjustments */
+  h1 {
+    font-size: 1.2rem;
+    line-height: 1.4;
+    margin: 10px 0;
+  }
+
+  h2 {
+    font-size: 1rem;
+    margin: 8px 0;
+  }
+
+  /* Menu adjustments */
+  .menu-item {
+    padding: 12px 8px;
+    margin: 6px 0;
+  }
+
+  /* Project grid - stack on mobile */
+  .project-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  /* Terminal adjustments */
+  .terminal {
+    font-size: 0.7rem;
+    padding: 10px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+  }
+
+  /* Adjust project details */
+  .project-info {
+    flex-direction: column;
+  }
+
+  .project-badge {
+    margin: 0 auto 12px auto;
+  }
+
+  .project-stats {
+    grid-template-columns: 1fr;
+  }
+
+  /* Links grid adjustments */
+  .links-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Feature list adjustments */
+  .feature-item {
+    margin-bottom: 12px;
+  }
+
+  /* Make pagination more mobile-friendly */
+  .pagination-controls {
+    margin-top: 12px;
+  }
+
+  .pagination-buttons {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* Status bar adjustments */
+  .status-bar {
+    font-size: 0.6rem;
+    padding: 6px;
+    overflow: hidden;
+  }
+
+  /* Improve tap targets */
+  .menu-item, .project-link, a.menu-item {
+    min-height: 44px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /* Adjust pixel borders */
+  .pixel-border {
+    border-width: 3px;
+    padding: 6px;
+    margin: 6px 0;
+  }
+
+  /* Fix overflow issues */
+  .stat-value {
+    font-size: 9px;
+    word-break: break-word;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1rem;
+  }
+
+  body {
+    font-size: 0.8rem;
+  }
+
+  .menu-item, .project-link, a.menu-item {
+    min-height: 40px;
+  }
+
+  /* Adjust screen borders */
+  .screen {
+    border-width: 6px;
+    padding: 10px;
+  }
+
+  /* Even smaller containers */
+  .container {
+    border-width: 3px;
+  }
+
+  /* Hide marquee on very small screens */
+  marquee {
+    display: none;
+  }
+
+  /* Make project status badge more compact */
+  .menu-item.active-project::after {
+    font-size: 6px;
+    padding: 1px 15px;
+    top: 6px;
+    right: -15px;
+  }
+}
+
+/* Fix for keyboard navigation focus */
+.menu-item:focus-visible {
+  outline: 2px solid #fff;
+  background: #000;
+  color: #fff;
+}
+
+/* Make scrolling smoother on mobile */
+* {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Better viewport handling for mobile */
+@viewport {
+  width: device-width;
+  zoom: 1.0;
+}
+
+/* Make sure images don't overflow */
+img, svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Fix for project-specific pages */
+@media (max-width: 768px) {
+  .feature-list {
+    gap: 12px;
+  }
+
+  .feature-icon {
+    margin-top: 2px;
+    font-size: 14px;
+  }
+
+  .feature-text h3 {
+    font-size: 10px;
+    margin-bottom: 2px;
+  }
+
+  .feature-text p {
+    font-size: 9px;
+  }
+
+  /* Handle contact section responsiveness */
+  #contact .menu-item {
+    padding: 15px 10px;
+  }
+
+  #contact .menu-item h3 {
+    font-size: 0.8rem;
+  }
+}
