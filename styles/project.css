@@ -39,6 +39,7 @@
 }
 
 .project-stats {
+    font-family: 'Press Start 2P', cursive;
     flex: 1;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
