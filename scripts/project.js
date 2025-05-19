@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Handle keyboard shortcuts
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'b' || e.key === 'B') {
+        if (e.key === 'Backspace' || e.key === 'Escape') {
             // Go back to projects page when B is pressed
             window.location.href = '../index.html#projects';
         }

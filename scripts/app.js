@@ -237,7 +237,7 @@ async function loadProjects() {
             const techString = project.tech.slice(0, 2).join(' + ');
             
             const projectElement = document.createElement('div');
-            projectElement.className = 'menu-item';
+            projectElement.className = 'menu-item' + (project.status === 'active' ? ' active-project' : '');
             projectElement.innerHTML = `
                 <h3>${project.name}</h3>
                 <p>${project.shortDescription}</p>
@@ -652,16 +652,20 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
                 event.preventDefault();
                 break;
-                
-            case 'B':
-            case 'b':
-                // Go back to main menu when on a project page
-                if (window.location.pathname.includes('/projects/')) {
-                    window.location.href = '../index.html#projects';
+            
+            case 'Escape':
+            case 'Backspace':
+                // Only handle these keys when NOT on the main screen
+                if (currentScreen !== 'main') {
+                    // Navigate back to main screen
+                    navigateToPage('main');
+                    currentScreen = 'main';
+                    selectedItemIndex = 0;
+                    updateSelectableItems();
                     event.preventDefault();
                 }
                 break;
-        }
+        }           
     });
     
     // Initialize the selectable items for the main menu
