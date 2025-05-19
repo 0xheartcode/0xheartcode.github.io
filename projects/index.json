@@ -1,26 +1,82 @@
 [
   {
-    "id": "pokeapi-explorer",
-    "name": "POKéAPI EXPLORER",
-    "shortDescription": "A RESTful API explorer with Pokémon type matching",
-    "tech": ["Python", "FastAPI", "REST API"],
-    "status": "active",
-    "slug": "pokeapi-explorer"
+    "id": "uniswapv2-contracts-foundry",
+    "name": "UNISWAPV2 CONTRACTS FOUNDRY",
+    "shortDescription": "A Foundry implementation of Uniswap V2 with modern deployment infrastructure for legacy Solidity code",
+    "tech": ["Solidity", "Foundry", "JavaScript", "Docker"],
+    "status": "inactive",
+    "slug": "uniswapv2-contracts-foundry"
   },
   {
-    "id": "crypto-tracker",
-    "name": "CRYPTO TRACKER",
-    "shortDescription": "Real-time blockchain analysis tool",
-    "tech": ["Rust", "WebAssembly", "bubble"],
+    "id": "polysubgraphs-skeleton",
+    "name": "POLYSUBGRAPHS SKELETON",
+    "shortDescription": "A comprehensive subgraph monorepo for indexing DEX contracts with multi-environment deployment support",
+    "tech": ["TypeScript", "GraphQL", "The Graph", "Docker", "AssemblyScript"],
     "status": "active",
-    "slug": "crypto-tracker"
+    "slug": "polysubgraphs-skeleton"
   },
   {
-    "id": "crypto-trackero",
-    "name": "CRYPTO TRACKERo",
-    "shortDescription": "Real-time blockchain analysis toolo",
-    "tech": ["Rust", "WebAssembly", "Blockchain"],
+    "id": "nft-marketplace-contracts",
+    "name": "NFT MARKETPLACE CONTRACTS",
+    "shortDescription": "A robust NFT marketplace supporting both ERC721 and ERC1155 tokens with multi-currency support",
+    "tech": ["Solidity", "Foundry", "ERC721", "ERC1155"],
+    "status": "inactive",
+    "slug": "nft-marketplace-contracts"
+  },
+  {
+    "id": "nft-marketplace-subgraph",
+    "name": "NFT MARKETPLACE SUBGRAPH",
+    "shortDescription": "A comprehensive subgraph implementation for tracking NFT marketplace activities and token transfers",
+    "tech": ["TypeScript", "GraphQL", "The Graph", "Docker", "AssemblyScript"],
+    "status": "inactive",
+    "slug": "nft-marketplace-subgraph"
+  },
+  {
+    "id": "nft-bridge-contracts",
+    "name": "NFT BRIDGE CONTRACTS",
+    "shortDescription": "Cross-chain ERC1155 token bridge between Ethereum and NETWORK blockchain",
+    "tech": ["Solidity", "Foundry", "ERC1155"],
+    "status": "inactive",
+    "slug": "nft-bridge-contracts"
+  },
+  {
+    "id": "nft-bridge-backend",
+    "name": "NFT BRIDGE BACKEND",
+    "shortDescription": "Cross-chain bridge service for NFT transfers between Ethereum and NETWORK blockchain",
+    "tech": ["TypeScript", "Express", "MongoDB", "Docker", "ethers.js"],
+    "status": "inactive",
+    "slug": "nft-bridge-backend"
+  },
+  {
+    "id": "frontend-web3-skeleton",
+    "name": "FRONTEND WEB3 SKELETON",
+    "shortDescription": "Modern React application with TypeScript, TailwindCSS and CI/CD pipeline",
+    "tech": ["React", "TypeScript", "TailwindCSS", "Docker", "PNPM"],
     "status": "active",
-    "slug": "crypto-trackero"
+    "slug": "frontend-web3-skeleton"
+  },
+  {
+    "id": "backend-web3-skeleton",
+    "name": "BACKEND WEB3 SKELETON",
+    "shortDescription": "Modular Express.js boilerplate with authentication and Docker integration",
+    "tech": ["TypeScript", "Express", "SQLite", "Docker", "Makefile"],
+    "status": "active",
+    "slug": "backend-web3-skeleton"
+  },
+  {
+    "id": "staking-contract",
+    "name": "STAKING CONTRACT",
+    "shortDescription": "ERC20 staking platform with time-locked rewards and precision distribution",
+    "tech": ["Solidity", "Foundry", "ERC20"],
+    "status": "inactive",
+    "slug": "staking-contract"
+  },
+  {
+    "id": "ido-pools-launchpad",
+    "name": "IDO POOLS LAUNCHPAD",
+    "shortDescription": "Advanced IDO platform with tiered participation",
+    "tech": ["Solidity", "Foundry", "ERC20"],
+    "status": "inactive",
+    "slug": "ido-pools-launchpad"
   }
 ]
