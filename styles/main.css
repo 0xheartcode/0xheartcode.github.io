@@ -202,3 +202,35 @@ body {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.7; }
 }
+
+.menu-item.active-project {
+  position: relative;
+  overflow: hidden;
+}
+
+.menu-item.active-project::after {
+  content: "ACTIVE";
+  position: absolute;
+  top: 8px;
+  right: -18px;
+  background-color: #000000;
+  color: #FFFFFF;
+  font-size: 8px;
+  padding: 2px 20px;
+  transform: rotate(45deg);
+  box-shadow: 0 0 0 2px #000000;
+  z-index: 1;
+}
+
+/* Optional pixel effect for the stamp */
+.menu-item.active-project::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 12px;
+  height: 12px;
+  background-color: #000;
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+  z-index: 0;
+}

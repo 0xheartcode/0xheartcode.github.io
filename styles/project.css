@@ -57,6 +57,7 @@
 
 .stat-value {
     font-size: 10px;
+    line-height: 1.5;
 }
 
 .stat-value.active {
@@ -142,4 +143,34 @@
     .links-grid {
         grid-template-columns: 1fr;
     }
+}
+
+.pixel-border h2:first-of-type + p {
+  font-family: 'PixelOperator8', sans-serif;
+  font-size: 12px;
+  text-transform: none;
+}
+
+@font-face {
+  font-family: 'PixelOperator8';
+  src: url('/fonts/PixelOperator8.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.pixel-border {
+  font-family: 'PixelOperator8', sans-serif;
+}
+.pixel-border h1,
+.pixel-border h2,
+.pixel-border h3,
+.pixel-border h4,
+.pixel-border h5,
+.pixel-border h6 {
+  font-family: 'Press Start 2P', cursive;
+}
+
+.pixel-border a {
+  font-family: 'Press Start 2P', cursive;
+  text-decoration: none;
 }
