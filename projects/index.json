@@ -18,8 +18,8 @@
   {
     "id": "nft-marketplace-contracts",
     "name": "NFT MARKETPLACE CONTRACTS",
-    "shortDescription": "A robust NFT marketplace supporting both ERC721 and ERC1155 tokens with multi-currency support",
-    "tech": ["Solidity", "Foundry", "ERC721", "ERC1155"],
+    "shortDescription": "A robust NFT marketplace supporting ERC721, ERC1155 and ERC6909 tokens with multi-currency support",
+    "tech": ["Solidity", "Foundry", "ERC721", "ERC1155", "ERC6909"],
     "status": "inactive",
     "slug": "nft-marketplace-contracts"
   },
