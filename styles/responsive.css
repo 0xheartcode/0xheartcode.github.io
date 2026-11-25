@@ -42,9 +42,16 @@
 
   /* Project grid - stack on mobile */
   .project-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 8px;
   }
+  /* Stop cards (and long Press Start 2P words) from forcing horizontal overflow */
+  .project-grid > .menu-item { min-width: 0; max-width: 100%; }
+  .menu-item h3,
+  .menu-item p,
+  .menu-item small,
+  .menu-item .project-link { overflow-wrap: anywhere; min-width: 0; }
+  html, body { overflow-x: hidden; }
 
   /* Terminal adjustments */
   .terminal {
