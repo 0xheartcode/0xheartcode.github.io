@@ -1,19 +1,227 @@
 [
   {
-    "id": "uniswapv2-contracts-foundry",
-    "name": "UNISWAPV2 CONTRACTS FOUNDRY",
-    "shortDescription": "A Foundry implementation of Uniswap V2 with modern deployment infrastructure for legacy Solidity code",
-    "tech": ["Solidity", "Foundry", "JavaScript", "Docker"],
-    "status": "inactive",
-    "slug": "uniswapv2-contracts-foundry"
+    "id": "flightdeck",
+    "name": "FLIGHTDECK",
+    "shortDescription": "Self-hosted deployment control plane for containers. Railway-style UI, your own hardware.",
+    "overview": "A self-hosted deployment control plane for containers with Railway-style ergonomics on your own hardware. A small Rust agent on each host discovers labelled containers and streams their logs, metrics and status over WebSocket to a TypeScript control plane and a React UI, with gated restart and redeploy from the browser.",
+    "tech": ["Rust", "TypeScript", "React", "Docker"],
+    "status": "active",
+    "updated": "NOV 2026",
+    "slug": "flightdeck",
+    "link": "https://github.com/0xheartcode/Flightdeck",
+    "highlights": [
+      { "t": "MULTI-HOST AGENTS", "d": "A Rust agent per server, against Docker or a rootless Podman socket, with automatic reconnect and live event fan-out." },
+      { "t": "HIGH AVAILABILITY", "d": "Postgres LISTEN/NOTIFY fan-out, OIDC/JWT role-based access, and a read-only operator audit trail." },
+      { "t": "OBSERVABILITY", "d": "Durable log search via an optional Loki/Grafana/Prometheus stack, plus a notifications hub." }
+    ],
+    "architecture": [
+      { "t": "CONTROL PLANE", "d": "A TypeScript (Hono) service with two WebSocket endpoints, one for agents and one for browsers, keeping a bounded in-memory log tail per service and fanning events out to the UI." },
+      { "t": "PER-HOST AGENT", "d": "One small static Rust binary per server that discovers containers labelled flightdeck.enable=true via the bollard Docker API and forwards logs, reconnecting automatically." },
+      { "t": "SHARED WIRE CONTRACT", "d": "A versioned protocol package: zod schemas on the TypeScript side mirrored by serde structs in the Rust agent." }
+    ],
+    "techDetails": [
+      "CORE: Rust agent + TypeScript control plane + React 19 UI",
+      "HA: Postgres LISTEN/NOTIFY fan-out for multi-instance",
+      "AUTH: OIDC/JWT roles, constant-time agent tokens, local accounts (scrypt)",
+      "OBSERVABILITY: optional Loki / Grafana / Prometheus stack",
+      "TIERS: lite / medium / full via FD_PROFILE flags"
+    ]
+  },
+  {
+    "id": "adw",
+    "name": "ADW (AGENTIC DEV WORKFLOW)",
+    "shortDescription": "A Python orchestrator for structured, crash-resumable AI agent runs.",
+    "overview": "Agentic Developer Workflow: a Python-level abstraction for running structured, repeatable AI agent workflows end to end, with crash-resume so an interrupted run picks up where it left off instead of starting over.",
+    "tech": ["Python", "AI Agents"],
+    "status": "active",
+    "updated": "NOV 2026",
+    "slug": "adw",
+    "link": "https://github.com/0xheartcode/ADW",
+    "highlights": [
+      { "t": "ORCHESTRATION", "d": "A run loop split into per-kind step handlers, with convergence signals and architectural gates." },
+      { "t": "CRASH-RESUME", "d": "Idempotent tasks so an interrupted run resumes cleanly rather than latching a stale state." },
+      { "t": "TOOL INTEGRATION", "d": "Uses git-local-issue as an issue sink and cargo-structure-diff as an architectural deep gate." }
+    ],
+    "techDetails": [
+      "ORCHESTRATION: per-kind step handlers with convergence signals",
+      "RESUME: idempotent tasks survive crashes and restarts"
+    ]
+  },
+  {
+    "id": "simharness",
+    "name": "SIMHARNESS",
+    "shortDescription": "A deterministic, genre-agnostic harness for running and replaying coding agents reproducibly.",
+    "overview": "A deterministic, genre-agnostic harness for running and replaying coding agents reproducibly: the eval substrate most agent setups lack. Built around a discrete-action seam with trace shrinking and porcelain action helpers.",
+    "tech": ["TypeScript", "AI Agents"],
+    "status": "active",
+    "updated": "NOV 2026",
+    "slug": "simharness",
+    "link": "https://github.com/0xheartcode/Simharness",
+    "highlights": [
+      { "t": "DETERMINISTIC", "d": "Run, replay and shrink agent traces reproducibly for reliable evaluation." },
+      { "t": "GENRE-AGNOSTIC", "d": "A discrete-action core that drives spatial and non-spatial workers alike." },
+      { "t": "CI-FRIENDLY", "d": "Auto-generated API docs and a one-command quality gate." }
+    ],
+    "techDetails": [
+      "CORE: discrete-action seam, genre-agnostic",
+      "EVAL: trace shrinking and reproducible replay"
+    ]
+  },
+  {
+    "id": "panekit",
+    "name": "PANEKIT",
+    "shortDescription": "Headless terminal-UI test harness in Rust. Drive and assert real TUI state, no screen-scraping.",
+    "overview": "A headless terminal-UI output and test harness in Rust (panedrive plus paneview). Drive and assert real TUI state instead of screen-scraping, with crash and false-pass detection for honest CI results.",
+    "tech": ["Rust", "TUI"],
+    "status": "active",
+    "updated": "OCT 2026",
+    "slug": "panekit",
+    "link": "https://github.com/0xheartcode/panekit",
+    "highlights": [
+      { "t": "HEADLESS", "d": "Press real keys and read real state from a TUI with no terminal attached." },
+      { "t": "HONEST RESULTS", "d": "CI-grade run results with crash and false-pass detection." },
+      { "t": "PUBLISHED", "d": "Shipped as two crates on crates.io (panedrive and paneview)." }
+    ],
+    "techDetails": [
+      "CRATES: panedrive (driver) + paneview (state seam)",
+      "CI: crash and false-pass detection built in"
+    ]
+  },
+  {
+    "id": "cargo-structure-diff",
+    "name": "CARGO-STRUCTURE-DIFF",
+    "shortDescription": "A Rust CI gate that fails the build when a crate's module architecture drifts.",
+    "overview": "A deterministic CI gate for Rust architecture. It builds a structural IR of a crate and fails the build when its module architecture drifts, turning 'keep it clean' into an automated check.",
+    "tech": ["Rust", "CI/CD"],
+    "status": "active",
+    "updated": "NOV 2026",
+    "slug": "cargo-structure-diff",
+    "link": "https://github.com/0xheartcode/cargo-structure-diff",
+    "highlights": [
+      { "t": "STRUCTURAL DIFF", "d": "Compares a crate's module structure against a baseline and flags drift." },
+      { "t": "DETERMINISTIC", "d": "A stable IR so the same code always yields the same verdict." },
+      { "t": "PUBLISHED", "d": "Available on crates.io, installable with cargo install." }
+    ],
+    "techDetails": [
+      "IR: stable structural representation of a crate",
+      "GATE: fails the build on architecture drift"
+    ]
+  },
+  {
+    "id": "git-local-issue",
+    "name": "GIT-LOCAL-ISSUE (GLI)",
+    "shortDescription": "Distributed, offline-first issue tracker that stores issues as native Git refs. No server.",
+    "overview": "A distributed, offline-first issue tracker that stores issues natively in Git under refs/issues/*. No external database and no server: issues travel with the repo and sync over ordinary git.",
+    "tech": ["Rust", "Git"],
+    "status": "active",
+    "updated": "NOV 2026",
+    "slug": "git-local-issue",
+    "link": "https://github.com/0xheartcode/git-local-issue",
+    "highlights": [
+      { "t": "GIT-NATIVE", "d": "Issues live in refs/issues/*, versioned alongside the code they describe." },
+      { "t": "OFFLINE-FIRST", "d": "Create, edit and close issues with no network and no server." },
+      { "t": "PUBLISHED", "d": "Shipped on crates.io via cargo-dist." }
+    ],
+    "techDetails": [
+      "STORAGE: issues in refs/issues/* with UUIDv7 ids",
+      "SYNC: travels with the repo, no server required"
+    ]
+  },
+  {
+    "id": "lazydash",
+    "name": "LAZYDASH",
+    "shortDescription": "Keyboard-driven terminal dashboard for GitHub Projects, backed by local Git issues.",
+    "overview": "A keyboard-driven terminal dashboard for GitHub Projects, with activity and calendar views. It can back local issues with git-local-issue for an offline-capable board.",
+    "tech": ["Go", "TUI"],
+    "status": "active",
+    "updated": "NOV 2026",
+    "slug": "lazydash",
+    "link": "https://github.com/0xheartcode/lazydash",
+    "highlights": [
+      { "t": "KEYBOARD-DRIVEN", "d": "Navigate GitHub Projects and multiple repos entirely from the keyboard." },
+      { "t": "ACTIVITY VIEWS", "d": "Activity and calendar views derived from issue history." },
+      { "t": "LOCAL BACKEND", "d": "Optional git-local-issue backend for offline work." }
+    ],
+    "techDetails": [
+      "VIEWS: activity and calendar from issue history",
+      "BACKEND: optional git-local-issue for offline work"
+    ]
+  },
+  {
+    "id": "counter-index",
+    "name": "COUNTER-INDEX",
+    "shortDescription": "A high-throughput OP_NET data indexer: index, store and stream on-chain data.",
+    "overview": "A high-throughput OP_NET data indexer: index, store and stream on-chain data. The read-side infrastructure for building on OP_NET, smart contracts on Bitcoin.",
+    "tech": ["TypeScript", "Solidity", "Docker"],
+    "status": "active",
+    "updated": "NOV 2026",
+    "slug": "counter-index",
+    "link": "https://github.com/CounterFinance/counter-index",
+    "highlights": [
+      { "t": "STREAMING", "d": "Index, store and stream raw on-chain data to downstream consumers." },
+      { "t": "ROUTING-AWARE", "d": "Read-only exposure and routing awareness for safe reads." },
+      { "t": "CONTAINERIZED", "d": "TypeScript services with Docker and type-aware tooling." }
+    ],
+    "techDetails": [
+      "PIPELINE: index, store and stream on-chain data",
+      "DEPLOY: containerized TypeScript services"
+    ]
+  },
+  {
+    "id": "maxibridge",
+    "name": "MAXIBRIDGE",
+    "shortDescription": "Cross-chain EVM to OP_NET bridge (smart contracts on Bitcoin). Audited by PeckShield.",
+    "overview": "A cross-chain bridge between EVM chains and OP_NET (smart contracts on Bitcoin), with wrapped-asset contracts. Audited by PeckShield, with every finding resolved.",
+    "tech": ["Solidity", "Foundry", "Security"],
+    "status": "active",
+    "updated": "JUN 2026",
+    "slug": "maxibridge",
+    "link": "https://github.com/0xheartcode/MaxiBridge-contracts",
+    "highlights": [
+      { "t": "AUDITED", "d": "Reviewed by PeckShield; PVE findings addressed with pause guards and per-finding dispositions." },
+      { "t": "CROSS-CHAIN", "d": "Wrapped ERC20 and OP20 assets bridged between EVM and OP_NET." },
+      { "t": "TESTED", "d": "EVM and OP_NET test suites covering the bridge paths." }
+    ],
+    "techDetails": [
+      "AUDIT: PeckShield review, findings resolved",
+      "SUITES: EVM + OP_NET test coverage"
+    ]
+  },
+  {
+    "id": "daemon-wallet",
+    "name": "DAEMON-WALLET",
+    "shortDescription": "A Rust terminal EVM wallet that bridges to the browser. Daemon core plus Chrome front end.",
+    "overview": "A Rust terminal EVM wallet (externally owned account) that bridges to Google Chrome. A daemon core with a dedicated vault crate plus a browser front end, exploring a terminal-first wallet UX.",
+    "tech": ["Rust", "EVM"],
+    "status": "active",
+    "updated": "NOV 2026",
+    "slug": "daemon-wallet",
+    "link": "https://github.com/CounterFinance/daemon-wallet",
+    "highlights": [
+      { "t": "RUST CORE", "d": "A cargo workspace with a dedicated vault crate for key handling." },
+      { "t": "BROWSER BRIDGE", "d": "Connects the terminal daemon to a Google Chrome front end." },
+      { "t": "EVM", "d": "Signs and sends EVM transactions as an externally owned account." }
+    ],
+    "techDetails": [
+      "WORKSPACE: cargo workspace with a dedicated vault crate",
+      "BRIDGE: Rust daemon connects to a Chrome front end"
+    ]
   },
   {
     "id": "polysubgraphs-skeleton",
     "name": "POLYSUBGRAPHS SKELETON",
     "shortDescription": "A comprehensive subgraph monorepo for indexing DEX contracts with multi-environment deployment support",
     "tech": ["TypeScript", "GraphQL", "The Graph", "Docker", "AssemblyScript"],
-    "status": "active",
+    "status": "inactive",
     "slug": "polysubgraphs-skeleton"
+  },
+  {
+    "id": "uniswapv2-contracts-foundry",
+    "name": "UNISWAPV2 CONTRACTS FOUNDRY",
+    "shortDescription": "A Foundry implementation of Uniswap V2 with modern deployment infrastructure for legacy Solidity code",
+    "tech": ["Solidity", "Foundry", "JavaScript", "Docker"],
+    "status": "inactive",
+    "slug": "uniswapv2-contracts-foundry"
   },
   {
     "id": "nft-marketplace-contracts",
@@ -52,7 +260,7 @@
     "name": "FRONTEND WEB3 SKELETON",
     "shortDescription": "Modern React application with TypeScript, TailwindCSS and CI/CD pipeline",
     "tech": ["React", "TypeScript", "TailwindCSS", "Docker", "PNPM"],
-    "status": "active",
+    "status": "inactive",
     "slug": "frontend-web3-skeleton"
   },
   {
@@ -60,7 +268,7 @@
     "name": "BACKEND WEB3 SKELETON",
     "shortDescription": "Modular Express.js boilerplate with authentication and Docker integration",
     "tech": ["TypeScript", "Express", "SQLite", "Docker", "Makefile"],
-    "status": "active",
+    "status": "inactive",
     "slug": "backend-web3-skeleton"
   },
   {

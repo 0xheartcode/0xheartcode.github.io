@@ -39,11 +39,26 @@ function updateSelection() {
     }
 }
 
+// Slugify a skill name to match the generated skills/<slug>.html filenames
+function skillSlug(s) {
+    return String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+}
+// Open a dedicated skill page listing the projects that use it
+function goToSkillPage(skill) {
+    window.location.href = 'skills/' + skillSlug(skill) + '.html';
+}
+
 // Function to navigate to selected item
 function navigateToSelected() {
     if (menuItems.length > 0) {
         const selectedItem = menuItems[selectedItemIndex];
-        
+
+        // Case 0: Skill tile -> open that skill's page
+        if (selectedItem.dataset.skill) {
+            goToSkillPage(selectedItem.dataset.skill);
+            return;
+        }
+
         // Case 1: Regular navigation link
         const targetPage = selectedItem.dataset.target;
         if (targetPage && pages[targetPage]) {
@@ -189,14 +204,14 @@ async function loadProjects() {
         }
         
         const projects = await response.json();
-        
+
         // Get the projects container
         const projectsContainer = document.getElementById('projects');
         if (!projectsContainer) {
             console.error('Projects container not found');
             return;
         }
-        
+
         // Get (or create) the project grid
         let projectGrid = projectsContainer.querySelector('.project-grid');
         if (!projectGrid) {
@@ -205,7 +220,7 @@ async function loadProjects() {
             projectGrid.className = 'project-grid';
             projectsContainer.appendChild(projectGrid);
         }
-        
+
         // Pagination configuration
         const itemsPerPage = 6;
         
@@ -235,7 +250,7 @@ async function loadProjects() {
         // Now add each project for the current page
         currentPageProjects.forEach(project => {
             const techString = project.tech.slice(0, 2).join(' + ');
-            
+
             const projectElement = document.createElement('div');
             projectElement.className = 'menu-item' + (project.status === 'active' ? ' active-project' : '');
             projectElement.innerHTML = `
@@ -244,7 +259,7 @@ async function loadProjects() {
                 <small>TECH: ${techString}</small>
                 <a href="projects/${project.slug}.html" class="project-link">VIEW DETAILS</a>
             `;
-            
+
             projectGrid.appendChild(projectElement);
         });
         
@@ -317,9 +332,10 @@ async function loadSkills() {
         
         const projects = await response.json();
 
-        // Build the skills map
+        // Build the skills map from active projects only, so the skill set
+        // reflects the current stack (Rust / tooling) rather than archived web3 work.
         const skillMap = new Map();
-        projects.forEach(project => {
+        projects.filter(project => project.status === 'active').forEach(project => {
             project.tech.forEach(skill => {
                 skillMap.set(skill, (skillMap.get(skill) || 0) + 1);
             });
@@ -372,16 +388,18 @@ async function loadSkills() {
         // Clear the skills grid
         skillsGrid.innerHTML = '';
         
-        // Add each skill item
+        // Add each skill item (clickable: opens the projects screen filtered by this skill)
         currentPageSkills.forEach(({ skill, count, maxValue }) => {
             const skillElement = document.createElement('div');
             skillElement.className = 'menu-item';
+            skillElement.dataset.skill = skill;
             skillElement.innerHTML = `
                 <h3>${skill}</h3>
                 <p>Used in ${count} project${count !== 1 ? 's' : ''}</p>
                 <progress value="${count}" max="${maxValue}"></progress>
+                <small class="skill-cta">VIEW PROJECTS →</small>
             `;
-            
+            skillElement.addEventListener('click', () => goToSkillPage(skill));
             skillsGrid.appendChild(skillElement);
         });
         

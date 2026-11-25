@@ -239,3 +239,10 @@ body {
   clip-path: polygon(0 0, 100% 0, 100% 100%);
   z-index: 0;
 }
+
+/* Skill tiles are navigable: call-to-action hint on each tile */
+.skill-cta {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.7em;
+}

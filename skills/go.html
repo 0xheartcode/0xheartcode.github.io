@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Go - 0xheartcode</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/project.css">
+    <link rel="stylesheet" href="../styles/responsive.css">
+    <link rel="stylesheet" href="../styles/mobile-styles.css"></head>
+<body>
+    <div class="container">
+        <div class="screen">
+            <div class="status-bar">
+                SKILL ▲▼ Go
+            </div>
+
+            <h1>Go</h1>
+
+            <div class="menu-item" onclick="window.location.href='../index.html#skills'">
+                ← BACK TO SKILLS
+            </div>
+
+            <div class="pixel-border">
+                <h2>USED IN 1 PROJECT</h2>
+                <div class="project-grid">
+                    <div class="menu-item" onclick="window.location.href='../projects/lazydash.html'">
+                        <h3>LAZYDASH</h3>
+                        <p>Keyboard-driven terminal dashboard for GitHub Projects, backed by local Git issues.</p>
+                        <small>TECH: Go + TUI</small>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="status-bar" style="text-align: center;">
+            <marquee behavior="scroll" direction="left">
+                DEVéLOPER: 0xheartcode ▲▼ Press ESC to go back
+            </marquee>
+        </div>
+    </div>
+
+    <script src="../scripts/mobile-enhancements.js"></script>
+    <script>
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' || e.key === 'Backspace') {
+          window.location.href = '../index.html#skills';
+        }
+      });
+    </script>
+</body>
+</html>

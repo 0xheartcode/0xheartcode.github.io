@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FLIGHTDECK - 0xheartcode</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/project.css">
+    <link rel="stylesheet" href="../styles/responsive.css">
+    <link rel="stylesheet" href="../styles/mobile-styles.css"></head>
+<body>
+    <div class="container">
+        <div class="screen">
+            <div class="status-bar">
+                PROJECT DETAILS ▲▼ FLIGHTDECK
+            </div>
+
+            <h1>FLIGHTDECK</h1>
+
+            <div class="menu-item" onclick="window.location.href='../index.html#projects'">
+                ← BACK TO PROJECTS
+            </div>
+
+            <div class="pixel-border">
+                <div class="project-info">
+                    <div class="project-badge">
+                        <div class="badge-icon"></div>
+                    </div>
+                    <div class="project-stats">
+                        <div class="stat">
+                            <span class="stat-label">STATUS</span>
+                            <span class="stat-value active">ACTIVE</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">TECH</span>
+                            <span class="stat-value">RUST • TYPESCRIPT • REACT • DOCKER</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">LAST UPDATED</span>
+                            <span class="stat-value">NOV 2026</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pixel-border">
+                <h2>PROJECT OVERVIEW</h2>
+                <p>A self-hosted deployment control plane for containers with Railway-style ergonomics on your own hardware. A small Rust agent on each host discovers labelled containers and streams their logs, metrics and status over WebSocket to a TypeScript control plane and a React UI, with gated restart and redeploy from the browser.</p>
+
+                <h2>KEY FEATURES</h2>
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <div class="feature-icon">▲</div>
+                        <div class="feature-text">
+                            <h3>MULTI-HOST AGENTS</h3>
+                            <p>A Rust agent per server, against Docker or a rootless Podman socket, with automatic reconnect and live event fan-out.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">▲</div>
+                        <div class="feature-text">
+                            <h3>HIGH AVAILABILITY</h3>
+                            <p>Postgres LISTEN/NOTIFY fan-out, OIDC/JWT role-based access, and a read-only operator audit trail.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">▲</div>
+                        <div class="feature-text">
+                            <h3>OBSERVABILITY</h3>
+                            <p>Durable log search via an optional Loki/Grafana/Prometheus stack, plus a notifications hub.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h2>ARCHITECTURE</h2>
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <div class="feature-icon">⬤</div>
+                        <div class="feature-text">
+                            <h3>CONTROL PLANE</h3>
+                            <p>A TypeScript (Hono) service with two WebSocket endpoints, one for agents and one for browsers, keeping a bounded in-memory log tail per service and fanning events out to the UI.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">⬤</div>
+                        <div class="feature-text">
+                            <h3>PER-HOST AGENT</h3>
+                            <p>One small static Rust binary per server that discovers containers labelled flightdeck.enable=true via the bollard Docker API and forwards logs, reconnecting automatically.</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">⬤</div>
+                        <div class="feature-text">
+                            <h3>SHARED WIRE CONTRACT</h3>
+                            <p>A versioned protocol package: zod schemas on the TypeScript side mirrored by serde structs in the Rust agent.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h2>TECHNICAL DETAILS</h2>
+                <div class="terminal"> &gt; ./tech_stack.sh
+                    <br>[✓] Rust
+                    <br>[✓] TypeScript
+                    <br>[✓] React
+                    <br>[✓] Docker
+                    <br>
+                    <br> &gt; ./details.sh
+                    <br>CORE: Rust agent + TypeScript control plane + React 19 UI
+                    <br>HA: Postgres LISTEN/NOTIFY fan-out for multi-instance
+                    <br>AUTH: OIDC/JWT roles, constant-time agent tokens, local accounts (scrypt)
+                    <br>OBSERVABILITY: optional Loki / Grafana / Prometheus stack
+                    <br>TIERS: lite / medium / full via FD_PROFILE flags
+                </div>
+
+                <h2>LINKS</h2>
+                <div class="links-grid">
+                    <a href="https://github.com/0xheartcode/Flightdeck" class="menu-item" target="_blank" rel="noopener">
+                        ► GITHUB REPO
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="status-bar" style="text-align: center;">
+            <marquee behavior="scroll" direction="left">
+                DEVéLOPER: 0xheartcode ▲▼ Press ESC to go back
+            </marquee>
+        </div>
+    </div>
+
+    <script src="../scripts/project.js"></script>
+    <script src="../scripts/mobile-enhancements.js"></script>
+</body>
+</html>

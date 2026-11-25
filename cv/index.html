@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>CV</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+  @font-face {
+    font-family: 'PixelOperator';
+    src: url('/fonts/PixelOperator8.ttf') format('truetype');
+    font-display: swap;
+  }
+  :root {
+    --bg: #0a0e14; --panel: #0f141c; --line: #1e2630; --node: #2b3440;
+    --fg: #cdd6e0; --dim: #7a8798; --accent: #37d67a; --accent2: #5cc8ff;
+    --chip-bg: #121a24; --chip-br: #223344;
+  }
+  [data-theme="light"] {
+    --bg: #f6f7f4; --panel: #ffffff; --line: #d8ddd5; --node: #c3ccc0;
+    --fg: #1d2630; --dim: #5a6775; --accent: #16864a; --accent2: #0d6fb8;
+    --chip-bg: #eef1ec; --chip-br: #cdd6cc;
+  }
+  /* Pixel theme: matches the main site (Press Start 2P, Game Boy gray/black) */
+  [data-theme="pixel"] {
+    --bg: #e0e0e0; --panel: #e0e0e0; --line: #000000; --node: #000000;
+    --fg: #000000; --dim: #333333; --accent: #0a7a2f; --accent2: #0a3a7a;
+    --chip-bg: #d4d4d4; --chip-br: #000000;
+  }
+  [data-theme="pixel"] body { image-rendering: pixelated; }
+  [data-theme="pixel"] .name,
+  [data-theme="pixel"] h2.sec,
+  [data-theme="pixel"] .tl .ttl,
+  [data-theme="pixel"] .proj .pn,
+  [data-theme="pixel"] #lock h1 {
+    font-family: 'Press Start 2P', 'PixelOperator', monospace;
+  }
+  [data-theme="pixel"] .name { font-size: 20px; line-height: 1.5; }
+  [data-theme="pixel"] h2.sec { font-size: 11px; letter-spacing: 1px; }
+  [data-theme="pixel"] .tl .ttl { font-size: 12px; line-height: 1.6; }
+  [data-theme="pixel"] .proj .pn { font-size: 12px; line-height: 1.6; }
+  [data-theme="pixel"] #lock h1 { font-size: 13px; line-height: 1.6; }
+  [data-theme="pixel"] .proj,
+  [data-theme="pixel"] #lock .box {
+    border-width: 3px; border-style: solid; border-radius: 0;
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.25);
+  }
+  [data-theme="pixel"] .chip,
+  [data-theme="pixel"] .btn,
+  [data-theme="pixel"] #lock button,
+  [data-theme="pixel"] #lock input,
+  [data-theme="pixel"] .topbar button { border-radius: 0; }
+  [data-theme="pixel"] .tl .item::before { border-radius: 0; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg); color: var(--fg);
+    font-family: 'PixelOperator', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+    line-height: 1.55; -webkit-font-smoothing: none; font-smooth: never;
+    transition: background .2s, color .2s;
+  }
+  .wrap { max-width: 820px; margin: 0 auto; padding: 32px 20px 80px; }
+  a { color: var(--accent2); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ---- lock screen ---- */
+  #lock {
+    position: fixed; inset: 0; background: var(--bg); z-index: 50;
+    display: flex; align-items: center; justify-content: center; padding: 20px;
+  }
+  #lock .box {
+    width: 100%; max-width: 420px; border: 1px solid var(--line);
+    background: var(--panel); border-radius: 10px; padding: 26px;
+  }
+  #lock h1 { font-size: 18px; margin: 0 0 4px; color: var(--accent); }
+  #lock p { color: var(--dim); font-size: 13px; margin: 0 0 18px; }
+  #lock .row { display: flex; gap: 8px; }
+  #lock input {
+    flex: 1; background: var(--bg); border: 1px solid var(--chip-br); color: var(--fg);
+    padding: 10px 12px; border-radius: 6px; font-family: inherit; font-size: 14px;
+  }
+  #lock button, .btn {
+    background: var(--accent); color: #04120a; border: none; cursor: pointer;
+    padding: 10px 14px; border-radius: 6px; font-family: inherit; font-weight: bold; font-size: 14px;
+  }
+  #lock button:hover, .btn:hover { filter: brightness(1.08); }
+  #lock .err { color: #ff6b6b; font-size: 13px; margin-top: 12px; min-height: 18px; }
+  .lock-ico { font-size: 30px; margin-bottom: 8px; }
+
+  /* ---- content ---- */
+  #cv { display: none; }
+  .topbar { display: flex; justify-content: flex-end; gap: 8px; margin-bottom: 8px; }
+  .topbar button {
+    background: var(--chip-bg); color: var(--dim); border: 1px solid var(--chip-br);
+    padding: 6px 10px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 12px;
+  }
+  .topbar button:hover { color: var(--fg); }
+
+  header.hd { border-bottom: 1px solid var(--line); padding-bottom: 18px; margin-bottom: 8px; }
+  .name { font-size: 30px; font-weight: bold; margin: 0; letter-spacing: .5px; }
+  .tagline { color: var(--accent); font-size: 14px; margin: 6px 0 2px; }
+  .loc { color: var(--dim); font-size: 13px; }
+  .contacts { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 12px; font-size: 13px; }
+  .contacts .c b { color: var(--dim); font-weight: normal; }
+  .summary { font-size: 14px; color: var(--fg); margin: 20px 0 6px; }
+  .highlights { margin: 16px 0 4px; display: grid; gap: 7px; }
+  .highlights .hl { font-size: 13.5px; color: var(--fg); }
+  .highlights .hm { color: var(--accent); margin-right: 7px; font-weight: bold; }
+
+  h2.sec {
+    font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent2);
+    margin: 34px 0 16px; padding-bottom: 6px; border-bottom: 1px dashed var(--line);
+  }
+
+  /* timeline */
+  .tl { position: relative; padding-left: 26px; }
+  .tl::before { content: ""; position: absolute; left: 6px; top: 4px; bottom: 4px; width: 2px; background: var(--line); }
+  .tl .item { position: relative; margin-bottom: 22px; opacity: 0; transform: translateY(14px); transition: opacity .5s, transform .5s; }
+  .tl .item.in { opacity: 1; transform: none; }
+  .tl .item::before {
+    content: ""; position: absolute; left: -26px; top: 4px; width: 12px; height: 12px;
+    border-radius: 50%; background: var(--bg); border: 2px solid var(--accent);
+  }
+  .tl .period { color: var(--dim); font-size: 12px; }
+  .tl .ttl { font-size: 16px; font-weight: bold; margin: 2px 0; }
+  .tl .sub { color: var(--accent2); font-size: 13px; margin-bottom: 6px; }
+  .tl ul { margin: 6px 0 0; padding-left: 18px; }
+  .tl li { font-size: 13.5px; margin-bottom: 4px; }
+
+  /* projects */
+  .pgroup { margin-bottom: 20px; }
+  .pgroup .gname { color: var(--dim); font-size: 12px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
+  .proj {
+    border: 1px solid var(--line); background: var(--panel); border-radius: 8px; padding: 14px 16px; margin-bottom: 10px;
+    opacity: 0; transform: translateY(14px); transition: opacity .5s, transform .5s;
+  }
+  .proj.in { opacity: 1; transform: none; }
+  .proj.flag { border-color: var(--accent); }
+  .proj .pn { font-size: 15px; font-weight: bold; }
+  .proj .pn a { color: inherit; text-decoration: none; }
+  .proj .pn a:hover { color: var(--accent2); text-decoration: underline; }
+  .proj .pn .ext { color: var(--accent2); font-size: 11px; margin-left: 5px; }
+  .proj .pn .flagtag { font-size: 10px; color: #04120a; background: var(--accent); padding: 1px 6px; border-radius: 4px; margin-left: 8px; vertical-align: middle; }
+  .proj .pd { font-size: 13px; color: var(--fg); margin: 6px 0 8px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { font-size: 11px; color: var(--dim); background: var(--chip-bg); border: 1px solid var(--chip-br); padding: 2px 8px; border-radius: 10px; }
+
+  .skillcol { margin-bottom: 12px; }
+  .skillcol .sk-h { color: var(--dim); font-size: 12px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+  .os { color: var(--dim); font-size: 13px; margin-top: 10px; font-style: italic; }
+
+  footer.ft { margin-top: 40px; padding-top: 14px; border-top: 1px solid var(--line); color: var(--dim); font-size: 12px; text-align: center; }
+
+  /* ---- print / PDF ---- */
+  @media print {
+    :root, [data-theme] {
+      --bg: #fff; --panel: #fff; --line: #ccc; --node: #ccc; --fg: #111;
+      --dim: #555; --accent: #0a7a44; --accent2: #0b5fa0; --chip-bg: #f2f2f2; --chip-br: #ddd;
+    }
+    body { font-family: ui-monospace, Menlo, monospace; }
+    .name, h2.sec, .tl .ttl, .proj .pn { font-family: ui-monospace, Menlo, monospace !important; }
+    .proj { box-shadow: none !important; border-width: 1px !important; border-radius: 6px !important; }
+    #lock, .topbar { display: none !important; }
+    #cv { display: block !important; }
+    .wrap { max-width: none; padding: 0 12px; }
+    .tl .item, .proj { opacity: 1 !important; transform: none !important; }
+    .proj { break-inside: avoid; }
+    .tl .item { break-inside: avoid; }
+    a { color: #0b5fa0; }
+    h2.sec { break-after: avoid; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- Lock screen -->
+  <div id="lock">
+    <div class="box">
+      <div class="lock-ico">🔒</div>
+      <h1>Private CV</h1>
+      <p>This page is encrypted. Enter the passphrase to unlock it, or open the link you were given.</p>
+      <div class="row">
+        <input id="pass" type="password" placeholder="passphrase" autocomplete="off" autofocus>
+        <button id="unlock">Unlock</button>
+      </div>
+      <div class="err" id="err"></div>
+    </div>
+  </div>
+
+  <!-- Decrypted content renders here -->
+  <div class="wrap">
+    <div id="cv">
+      <div class="topbar">
+        <button id="themeBtn" title="Toggle theme">◐ theme</button>
+        <button id="pdfBtn" title="Save as PDF">⇩ PDF</button>
+      </div>
+      <div id="cvbody"></div>
+      <footer class="ft">Encrypted CV · decrypted in your browser · nothing was sent to a server</footer>
+    </div>
+  </div>
+
+  <script src="cv.enc.js"></script>
+  <script>
+  (function () {
+    const $ = (s, r=document) => r.querySelector(s);
+    const el = (t, c, h) => { const e = document.createElement(t); if (c) e.className = c; if (h != null) e.innerHTML = h; return e; };
+    const esc = (s) => String(s).replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+    const b64d = (s) => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+
+    async function decrypt(blob, pass) {
+      const enc = new TextEncoder();
+      const baseKey = await crypto.subtle.importKey('raw', enc.encode(pass), 'PBKDF2', false, ['deriveKey']);
+      const key = await crypto.subtle.deriveKey(
+        { name: 'PBKDF2', salt: b64d(blob.salt), iterations: blob.iter, hash: blob.hash },
+        baseKey, { name: 'AES-GCM', length: 256 }, false, ['decrypt']);
+      const pt = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64d(blob.iv) }, key, b64d(blob.ct));
+      return JSON.parse(new TextDecoder().decode(pt));
+    }
+
+    function render(d) {
+      const body = $('#cvbody');
+      body.innerHTML = '';
+
+      // header
+      const hd = el('header', 'hd');
+      hd.appendChild(el('div', 'name', esc(d.name)));
+      hd.appendChild(el('div', 'tagline', esc(d.tagline)));
+      hd.appendChild(el('div', 'loc', esc(d.location)));
+      const cts = el('div', 'contacts');
+      (d.contacts || []).forEach(c => {
+        cts.appendChild(el('span', 'c', `<b>${esc(c.label)}:</b> <a href="${esc(c.href)}">${esc(c.value)}</a>`));
+      });
+      hd.appendChild(cts);
+      body.appendChild(hd);
+      body.appendChild(el('div', 'summary', esc(d.summary)));
+
+      // highlights band (best work, up top)
+      if (Array.isArray(d.highlights) && d.highlights.length) {
+        const hb = el('div', 'highlights');
+        d.highlights.forEach(h => {
+          const row = el('div', 'hl');
+          row.appendChild(el('span', 'hm', '▸'));
+          row.appendChild(document.createTextNode(' ' + h));
+          hb.appendChild(row);
+        });
+        body.appendChild(hb);
+      }
+
+      // experience timeline
+      body.appendChild(el('h2', 'sec', 'Experience'));
+      const tl = el('div', 'tl');
+      (d.timeline || []).forEach(t => {
+        const it = el('div', 'item');
+        it.appendChild(el('div', 'period', esc(t.period)));
+        it.appendChild(el('div', 'ttl', esc(t.title)));
+        if (t.subtitle) it.appendChild(el('div', 'sub', esc(t.subtitle)));
+        if (t.bullets && t.bullets.length) {
+          const ul = el('ul');
+          t.bullets.forEach(b => ul.appendChild(el('li', null, esc(b))));
+          it.appendChild(ul);
+        }
+        tl.appendChild(it);
+      });
+      body.appendChild(tl);
+
+      // projects
+      body.appendChild(el('h2', 'sec', 'Selected projects'));
+      (d.projectGroups || []).forEach(g => {
+        const grp = el('div', 'pgroup');
+        const isFlag = /flagship/i.test(g.name);
+        if (!isFlag) grp.appendChild(el('div', 'gname', esc(g.name)));
+        (g.items || []).forEach(p => {
+          const card = el('div', 'proj' + (isFlag ? ' flag' : ''));
+          const nameHtml = p.link
+            ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.name)}</a><span class="ext">↗</span>`
+            : esc(p.name);
+          card.appendChild(el('div', 'pn', nameHtml + (isFlag ? '<span class="flagtag">FLAGSHIP</span>' : '')));
+          card.appendChild(el('div', 'pd', esc(p.desc)));
+          const chips = el('div', 'chips');
+          (p.tech || []).forEach(t => chips.appendChild(el('span', 'chip', esc(t))));
+          card.appendChild(chips);
+          grp.appendChild(card);
+        });
+        body.appendChild(grp);
+      });
+
+      // skills
+      body.appendChild(el('h2', 'sec', 'Skills'));
+      Object.entries(d.skills || {}).forEach(([k, v]) => {
+        const col = el('div', 'skillcol');
+        col.appendChild(el('div', 'sk-h', esc(k)));
+        const chips = el('div', 'chips');
+        v.forEach(t => chips.appendChild(el('span', 'chip', esc(t))));
+        col.appendChild(chips);
+        body.appendChild(col);
+      });
+      if (d.openSource) body.appendChild(el('div', 'os', esc(d.openSource)));
+
+      // reveal on scroll
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
+      }, { threshold: 0.12 });
+      document.querySelectorAll('.tl .item, .proj').forEach(n => obs.observe(n));
+    }
+
+    function unlockWith(pass) {
+      $('#err').textContent = '';
+      return decrypt(window.CV_BLOB, pass).then(data => {
+        render(data);
+        $('#lock').style.display = 'none';
+        $('#cv').style.display = 'block';
+        // scrub the key from the URL so it does not linger in the address bar / history
+        if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+        document.title = (data.name && data.name !== 'Real Name') ? data.name + ' CV' : 'CV';
+      }).catch(() => { $('#err').textContent = 'Wrong passphrase.'; });
+    }
+
+    // wire up
+    $('#unlock').addEventListener('click', () => unlockWith($('#pass').value));
+    $('#pass').addEventListener('keydown', e => { if (e.key === 'Enter') unlockWith($('#pass').value); });
+    const THEMES = ['dark', 'light', 'pixel'];
+    const THEME_LABEL = { dark: '◐ dark', light: '◐ light', pixel: '▚ pixel' };
+    function applyTheme(t) {
+      if (!THEMES.includes(t)) t = 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+      $('#themeBtn').textContent = THEME_LABEL[t];
+      try { localStorage.setItem('cv-theme', t); } catch (e) {}
+    }
+    $('#themeBtn').addEventListener('click', () => {
+      const cur = document.documentElement.getAttribute('data-theme') || 'dark';
+      applyTheme(THEMES[(THEMES.indexOf(cur) + 1) % THEMES.length]);
+    });
+    $('#pdfBtn').addEventListener('click', () => window.print());
+    try { applyTheme(localStorage.getItem('cv-theme') || 'dark'); } catch (e) { applyTheme('dark'); }
+
+    if (!window.CV_BLOB) { $('#err').textContent = 'Missing cv.enc.js'; return; }
+
+    // auto-unlock if a key is present in the URL fragment: #k=passphrase
+    const params = new URLSearchParams(location.hash.replace(/^#/, ''));
+    const k = params.get('k');
+    if (k) unlockWith(k);
+  })();
+  </script>
+</body>
+</html>

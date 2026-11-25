@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TUI - 0xheartcode</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/project.css">
+    <link rel="stylesheet" href="../styles/responsive.css">
+    <link rel="stylesheet" href="../styles/mobile-styles.css"></head>
+<body>
+    <div class="container">
+        <div class="screen">
+            <div class="status-bar">
+                SKILL ▲▼ TUI
+            </div>
+
+            <h1>TUI</h1>
+
+            <div class="menu-item" onclick="window.location.href='../index.html#skills'">
+                ← BACK TO SKILLS
+            </div>
+
+            <div class="pixel-border">
+                <h2>USED IN 2 PROJECTS</h2>
+                <div class="project-grid">
+                    <div class="menu-item" onclick="window.location.href='../projects/panekit.html'">
+                        <h3>PANEKIT</h3>
+                        <p>Headless terminal-UI test harness in Rust. Drive and assert real TUI state, no screen-scraping.</p>
+                        <small>TECH: Rust + TUI</small>
+                    </div>
+                    <div class="menu-item" onclick="window.location.href='../projects/lazydash.html'">
+                        <h3>LAZYDASH</h3>
+                        <p>Keyboard-driven terminal dashboard for GitHub Projects, backed by local Git issues.</p>
+                        <small>TECH: Go + TUI</small>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="status-bar" style="text-align: center;">
+            <marquee behavior="scroll" direction="left">
+                DEVéLOPER: 0xheartcode ▲▼ Press ESC to go back
+            </marquee>
+        </div>
+    </div>
+
+    <script src="../scripts/mobile-enhancements.js"></script>
+    <script>
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' || e.key === 'Backspace') {
+          window.location.href = '../index.html#skills';
+        }
+      });
+    </script>
+</body>
+</html>
