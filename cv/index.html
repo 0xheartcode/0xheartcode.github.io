@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -466,7 +466,7 @@
     });
     $('#pdfBtn').addEventListener('click', () => showToast('Beautiful PDF CV coming soon.'));
     $('#homeBtn').addEventListener('click', () => { window.location.href = '../'; });
-    try { applyTheme(localStorage.getItem('cv-theme') || 'dark'); } catch (e) { applyTheme('dark'); }
+    try { applyTheme(localStorage.getItem('cv-theme') || 'light'); } catch (e) { applyTheme('light'); }
 
     if (!window.CV_BLOB) { $('#err').textContent = 'Missing cv.enc.js'; return; }
 
