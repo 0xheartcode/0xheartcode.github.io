@@ -7,6 +7,7 @@
 <meta name="referrer" content="no-referrer">
 <title>CV</title>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<script defer src="https://analytics.digitaldevagency.site/umami" data-website-id="5739f85a-3dd1-4db2-b7b8-d34826aac480"></script>
 <style>
   @font-face {
     font-family: 'PixelOperator';
@@ -87,6 +88,12 @@
   }
   #lock button:hover, .btn:hover { filter: brightness(1.08); }
   #lock .err { color: #ff6b6b; font-size: 13px; margin-top: 12px; min-height: 18px; }
+  #lock .backlink { display: inline-block; margin-top: 14px; color: var(--dim); font-size: 12px; }
+  #lock .backlink:hover { color: var(--fg); }
+  #lock .gate { display: flex; align-items: center; gap: 10px; text-align: left; font-size: 13px; color: var(--fg); margin: 10px 0; cursor: pointer; }
+  #lock .gate input { width: 16px; height: 16px; accent-color: var(--accent); flex: none; }
+  #lock #unlock { width: 100%; margin-top: 10px; }
+  #lock #unlock:disabled { opacity: 0.5; cursor: not-allowed; }
   .lock-ico { font-size: 30px; margin-bottom: 8px; }
 
   /* ---- content ---- */
@@ -115,19 +122,49 @@
   }
 
   /* timeline */
-  .tl { position: relative; padding-left: 26px; }
-  .tl::before { content: ""; position: absolute; left: 6px; top: 4px; bottom: 4px; width: 2px; background: var(--line); }
-  .tl .item { position: relative; margin-bottom: 22px; opacity: 0; transform: translateY(14px); transition: opacity .5s, transform .5s; }
+  /* Experience timeline: centered line, entries alternating left/right on wide screens */
+  .tl { position: relative; }
+  .tl::before { content: ""; position: absolute; left: 50%; transform: translateX(-50%); top: 4px; bottom: 4px; width: 2px; background: var(--line); }
+  .tl .item {
+    position: relative; box-sizing: border-box; width: 50%; margin-bottom: 26px;
+    opacity: 0; transform: translateY(14px); transition: opacity .5s, transform .5s;
+  }
   .tl .item.in { opacity: 1; transform: none; }
+  .tl .item:nth-child(odd) { left: 0; padding-right: 36px; }
+  .tl .item:nth-child(even) { left: 50%; padding-left: 36px; }
   .tl .item::before {
-    content: ""; position: absolute; left: -26px; top: 4px; width: 12px; height: 12px;
+    content: ""; position: absolute; top: 4px; width: 13px; height: 13px; z-index: 1;
     border-radius: 50%; background: var(--bg); border: 2px solid var(--accent);
   }
+  .tl .item:nth-child(odd)::before { right: -7px; }
+  .tl .item:nth-child(even)::before { left: -7px; }
   .tl .period { color: var(--dim); font-size: 12px; }
   .tl .ttl { font-size: 16px; font-weight: bold; margin: 2px 0; }
   .tl .sub { color: var(--accent2); font-size: 13px; margin-bottom: 6px; }
+  .tl .note { color: var(--dim); font-size: 11.5px; font-style: italic; margin-bottom: 6px; }
   .tl ul { margin: 6px 0 0; padding-left: 18px; }
   .tl li { font-size: 13.5px; margin-bottom: 4px; }
+  .exp-head { position: relative; }
+  .tl-toggle {
+    position: absolute; right: 0; bottom: 8px;
+    background: var(--chip-bg); color: var(--dim); border: 1px solid var(--chip-br);
+    padding: 4px 9px; border-radius: 6px; cursor: pointer;
+    font-family: inherit; font-size: 10px; text-transform: none; letter-spacing: 0;
+  }
+  .tl-toggle:hover { color: var(--fg); }
+  @keyframes tl-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+  .tl-toggle.blink { animation: tl-blink 0.55s ease-in-out 3; }
+  /* single-line timeline: desktop override of the zigzag */
+  .tl.single::before { left: 6px; transform: none; }
+  .tl.single .item { width: auto; left: 0 !important; padding-left: 26px !important; padding-right: 0 !important; }
+  .tl.single .item::before { left: 0 !important; right: auto !important; }
+  /* Narrow screens: collapse the zigzag to a clean single column */
+  @media (max-width: 680px) {
+    .tl-toggle { display: none; }
+    .tl::before { left: 6px; transform: none; }
+    .tl .item { width: auto; left: 0 !important; padding-left: 26px !important; padding-right: 0 !important; margin-bottom: 20px; }
+    .tl .item::before { left: 0 !important; right: auto !important; }
+  }
 
   /* projects */
   .pgroup { margin-bottom: 20px; }
@@ -152,6 +189,29 @@
   .os { color: var(--dim); font-size: 13px; margin-top: 10px; font-style: italic; }
 
   footer.ft { margin-top: 40px; padding-top: 14px; border-top: 1px solid var(--line); color: var(--dim); font-size: 12px; text-align: center; }
+  #cv-toast {
+    position: fixed; bottom: 26px; left: 50%;
+    transform: translateX(-50%) translateY(14px);
+    background: var(--panel); color: var(--fg);
+    border: 2px solid var(--accent); border-radius: 8px;
+    padding: 12px 18px; font-size: 13px; letter-spacing: 0.02em;
+    z-index: 3000; max-width: 90vw; text-align: center;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    opacity: 0; transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+  #cv-toast::before { content: '▸ '; color: var(--accent); }
+  #cv-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  [data-theme="pixel"] #cv-toast { border-radius: 0; box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.3); }
+
+  /* Mobile tuning */
+  @media (max-width: 480px) {
+    .wrap { padding: 22px 14px 60px; }
+    .name { font-size: 24px; }
+    .tagline { font-size: 13px; }
+    .topbar button { font-size: 11px; padding: 5px 8px; }
+    .tl li, .proj .pd, .highlights .hl { font-size: 13px; }
+    .contacts { gap: 10px; }
+  }
 
   /* ---- print / PDF ---- */
   @media print {
@@ -168,6 +228,9 @@
     .tl .item, .proj { opacity: 1 !important; transform: none !important; }
     .proj { break-inside: avoid; }
     .tl .item { break-inside: avoid; }
+    .tl::before { left: 6px; transform: none; }
+    .tl .item { width: auto !important; left: 0 !important; padding-left: 26px !important; padding-right: 0 !important; }
+    .tl .item::before { left: 0 !important; right: auto !important; }
     a { color: #0b5fa0; }
     h2.sec { break-after: avoid; }
   }
@@ -179,13 +242,17 @@
   <div id="lock">
     <div class="box">
       <div class="lock-ico">🔒</div>
-      <h1>Private CV</h1>
-      <p>This page is encrypted. Enter the passphrase to unlock it, or open the link you were given.</p>
-      <div class="row">
-        <input id="pass" type="password" placeholder="passphrase" autocomplete="off" autofocus>
-        <button id="unlock">Unlock</button>
+      <h1>Before you see this CV</h1>
+      <p>Tick the boxes to continue.</p>
+      <label class="gate"><input type="checkbox" class="gate-check"> I'm interested in hiring this engineer</label>
+      <label class="gate"><input type="checkbox" class="gate-check"> I won't share this CV's private details</label>
+      <label class="gate"><input type="checkbox" class="gate-check"> I'm having a good day</label>
+      <div class="row" id="passrow" style="display: none;">
+        <input id="pass" type="password" placeholder="passphrase" autocomplete="off">
       </div>
+      <button id="unlock" disabled>Reveal CV</button>
       <div class="err" id="err"></div>
+      <a href="../" class="backlink">← back to site</a>
     </div>
   </div>
 
@@ -193,6 +260,7 @@
   <div class="wrap">
     <div id="cv">
       <div class="topbar">
+        <button id="homeBtn" title="Back to site">← site</button>
         <button id="themeBtn" title="Toggle theme">◐ theme</button>
         <button id="pdfBtn" title="Save as PDF">⇩ PDF</button>
       </div>
@@ -208,6 +276,17 @@
     const el = (t, c, h) => { const e = document.createElement(t); if (c) e.className = c; if (h != null) e.innerHTML = h; return e; };
     const esc = (s) => String(s).replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
     const b64d = (s) => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+
+    function showToast(msg) {
+      let t = document.getElementById('cv-toast');
+      if (t) t.remove();
+      t = document.createElement('div');
+      t.id = 'cv-toast';
+      t.textContent = msg;
+      document.body.appendChild(t);
+      requestAnimationFrame(() => t.classList.add('show'));
+      setTimeout(() => { t.classList.remove('show'); setTimeout(() => { if (t.parentNode) t.remove(); }, 300); }, 2800);
+    }
 
     async function decrypt(blob, pass) {
       const enc = new TextEncoder();
@@ -248,14 +327,18 @@
         body.appendChild(hb);
       }
 
-      // experience timeline
-      body.appendChild(el('h2', 'sec', 'Experience'));
+      // experience timeline (desktop: double-line zigzag, toggle-able to a single line)
+      const expHead = el('h2', 'sec exp-head', 'Experience');
+      const tlToggle = el('button', 'tl-toggle');
+      expHead.appendChild(tlToggle);
+      body.appendChild(expHead);
       const tl = el('div', 'tl');
       (d.timeline || []).forEach(t => {
         const it = el('div', 'item');
         it.appendChild(el('div', 'period', esc(t.period)));
         it.appendChild(el('div', 'ttl', esc(t.title)));
         if (t.subtitle) it.appendChild(el('div', 'sub', esc(t.subtitle)));
+        if (t.note) it.appendChild(el('div', 'note', esc(t.note)));
         if (t.bullets && t.bullets.length) {
           const ul = el('ul');
           t.bullets.forEach(b => ul.appendChild(el('li', null, esc(b))));
@@ -264,6 +347,28 @@
         tl.appendChild(it);
       });
       body.appendChild(tl);
+      let tlSingle = true; // default: single line
+      try { const saved = localStorage.getItem('cv-timeline'); if (saved) tlSingle = saved === 'single'; } catch (e) {}
+      const applyTl = () => {
+        tl.classList.toggle('single', tlSingle);
+        tlToggle.textContent = tlSingle ? '▌ single line' : '▞ double line';
+      };
+      applyTl();
+      tlToggle.addEventListener('click', () => {
+        tlSingle = !tlSingle;
+        try { localStorage.setItem('cv-timeline', tlSingle ? 'single' : 'double'); } catch (e) {}
+        applyTl();
+      });
+      // blink the toggle 3 times the first time the reader scrolls down, to hint that it is there
+      let tlBlinked = false;
+      const blinkToggle = () => {
+        if (tlBlinked || window.scrollY < 40) return;
+        tlBlinked = true;
+        tlToggle.classList.add('blink');
+        setTimeout(() => tlToggle.classList.remove('blink'), 2000);
+        window.removeEventListener('scroll', blinkToggle);
+      };
+      window.addEventListener('scroll', blinkToggle, { passive: true });
 
       // projects
       body.appendChild(el('h2', 'sec', 'Selected projects'));
@@ -311,15 +416,42 @@
         render(data);
         $('#lock').style.display = 'none';
         $('#cv').style.display = 'block';
+        // remember access so the main site can reveal a CV entry, and note the unlock
+        try { localStorage.setItem('cv-access', '1'); localStorage.setItem('cv-pass', pass); } catch (e) {}
+        if (window.umami) { try { umami.track('cv_unlocked'); } catch (e) {} }
         // scrub the key from the URL so it does not linger in the address bar / history
         if (location.hash) history.replaceState(null, '', location.pathname + location.search);
         document.title = (data.name && data.name !== 'Real Name') ? data.name + ' CV' : 'CV';
-      }).catch(() => { $('#err').textContent = 'Wrong passphrase.'; });
+      }).catch(() => {
+        $('#lock').style.display = 'flex'; // bring the lock back if an auto-unlock failed
+        try { localStorage.removeItem('cv-pass'); localStorage.removeItem('cv-access'); } catch (e) {}
+        $('#passrow').style.display = 'flex';
+        $('#err').textContent = 'Could not unlock. Enter the passphrase, or open the correct link.';
+      });
     }
 
-    // wire up
-    $('#unlock').addEventListener('click', () => unlockWith($('#pass').value));
-    $('#pass').addEventListener('keydown', e => { if (e.key === 'Enter') unlockWith($('#pass').value); });
+    // gated unlock: tick all boxes, then the key comes from the link / storage / passphrase
+    const checks = Array.from(document.querySelectorAll('.gate-check'));
+    const unlockBtn = $('#unlock');
+    let urlKey = '';
+    try { urlKey = new URLSearchParams(location.hash.replace(/^#/, '')).get('k') || ''; } catch (e) {}
+    const allChecked = () => checks.every(c => c.checked);
+    const refreshGate = () => { unlockBtn.disabled = !allChecked(); };
+    checks.forEach(c => c.addEventListener('change', refreshGate));
+    function doUnlock() {
+      if (!allChecked()) return;
+      const passEl = $('#pass');
+      const key = urlKey || (passEl ? passEl.value : '');
+      if (!key) {
+        $('#passrow').style.display = 'flex';
+        $('#err').textContent = 'Open the link you were given, or enter the passphrase.';
+        return;
+      }
+      unlockWith(key);
+    }
+    unlockBtn.addEventListener('click', doUnlock);
+    $('#pass').addEventListener('keydown', e => { if (e.key === 'Enter') doUnlock(); });
+
     const THEMES = ['dark', 'light', 'pixel'];
     const THEME_LABEL = { dark: '◐ dark', light: '◐ light', pixel: '▚ pixel' };
     function applyTheme(t) {
@@ -332,15 +464,23 @@
       const cur = document.documentElement.getAttribute('data-theme') || 'dark';
       applyTheme(THEMES[(THEMES.indexOf(cur) + 1) % THEMES.length]);
     });
-    $('#pdfBtn').addEventListener('click', () => window.print());
+    $('#pdfBtn').addEventListener('click', () => showToast('Beautiful PDF CV coming soon.'));
+    $('#homeBtn').addEventListener('click', () => { window.location.href = '../'; });
     try { applyTheme(localStorage.getItem('cv-theme') || 'dark'); } catch (e) { applyTheme('dark'); }
 
     if (!window.CV_BLOB) { $('#err').textContent = 'Missing cv.enc.js'; return; }
 
-    // auto-unlock if a key is present in the URL fragment: #k=passphrase
-    const params = new URLSearchParams(location.hash.replace(/^#/, ''));
-    const k = params.get('k');
-    if (k) unlockWith(k);
+    // Returning visitor who already unlocked before: auto-unlock and skip the checkbox ritual
+    let storedKey = '';
+    try { storedKey = (localStorage.getItem('cv-access') === '1') ? (localStorage.getItem('cv-pass') || '') : ''; } catch (e) {}
+    if (storedKey) {
+      // hide the lock immediately so the checkboxes do not flash during the async decrypt
+      $('#lock').style.display = 'none';
+      unlockWith(storedKey);
+    } else if (!urlKey) {
+      // No link key and not a returning visitor: let them type the passphrase
+      $('#passrow').style.display = 'flex';
+    }
   })();
   </script>
 </body>

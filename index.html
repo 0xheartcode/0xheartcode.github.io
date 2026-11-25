@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="styles/responsive.css">
 </head>
 <body>
+    <script src="scripts/pixel-boot.js" data-auto data-exit="cut" data-hold="800"></script>
     <div class="container">
         <div id="main-menu" class="screen">
             <div class="status-bar">
@@ -45,7 +46,10 @@
                     ► CONTACT
                 </div>
                 <div class="menu-item" data-target="about">
-                    ► ABOUT 
+                    ► ABOUT
+                </div>
+                <div class="menu-item" id="guide-btn">
+                    ★ GUIDE: AUTO TOUR
                 </div>
             </div>
 
@@ -59,7 +63,7 @@
             <div class="terminal" style="margin-top: 16px;">
                 > ./status_check.sh<br>
                 [✓] PYTHON 3.12<br>
-                [✓] NODE 20.0<br>
+                [✓] NODE 24 LTS<br>
                 [⌛] CODING IN PROGRESS...
             </div>
         </div>
@@ -74,7 +78,7 @@
                 <div class="menu-item" data-target="main">
                     ← BACK
                 </div>
-                
+
                 <div class="project-grid" id="project-grid">
                     <!-- Projects will be loaded dynamically -->
                 </div>
@@ -150,7 +154,8 @@
                     <br>■ Python ■ Solidity ■ Docker<br>
                     <br>Building:
                     <br>▲ AI agent tooling &amp; eval harnesses
-                    <br>▲ Self-hosted dev infrastructure
+                    <br>▲ Self-hosted infrastructure &amp; CI/CD
+                    <br>▲ Smart-contract systems (DeFi, NFT, DePIN)
                     <br>▲ Audited cross-chain protocols
                     <br>▲ Published Rust crates (crates.io) <br>
                 </div>
@@ -165,6 +170,7 @@
     </div>
 
     <script src="scripts/app.js"></script>
+    <script src="scripts/tour.js"></script>
     <script src="scripts/mobile-enhancements.js"></script>
 </body>
 </html>

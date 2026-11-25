@@ -46,7 +46,8 @@
 
             <div class="pixel-border">
                 <h2>PROJECT OVERVIEW</h2>
-                <p>Agentic Developer Workflow: a Python-level abstraction for running structured, repeatable AI agent workflows end to end, with crash-resume so an interrupted run picks up where it left off instead of starting over.</p>
+                <p class="detail-overview">Agentic Developer Workflow: a Python orchestrator for running structured, repeatable AI agent workflows end to end. The run loop is split into per-kind step handlers with convergence signals and architectural gates, and it can suggest a workflow from the project's type. Tasks are idempotent, so a crashed or interrupted run resumes cleanly instead of starting over, and it wires git-local-issue as its issue sink and cargo-structure-diff as an architectural gate, keeping an agent's work both tracked and structurally honest.</p>
+                <div class="detail-extra">
 
                 <h2>KEY FEATURES</h2>
                 <div class="feature-list">
@@ -82,6 +83,7 @@
                     <br>ORCHESTRATION: per-kind step handlers with convergence signals
                     <br>RESUME: idempotent tasks survive crashes and restarts
                 </div>
+                </div>
 
                 <h2>LINKS</h2>
                 <div class="links-grid">
@@ -101,6 +103,7 @@
     </div>
 
     <script src="../scripts/project.js"></script>
+    <script src="../scripts/tour.js"></script>
     <script src="../scripts/mobile-enhancements.js"></script>
 </body>
 </html>

@@ -46,7 +46,8 @@
 
             <div class="pixel-border">
                 <h2>PROJECT OVERVIEW</h2>
-                <p>A Rust terminal EVM wallet (externally owned account) that bridges to Google Chrome. A daemon core with a dedicated vault crate plus a browser front end, exploring a terminal-first wallet UX.</p>
+                <p class="detail-overview">A Rust terminal EVM wallet (externally owned account) that bridges to the browser. It is a cargo workspace with a dedicated vault crate handling keys and signing, a long-running daemon core, and a Google Chrome front end that connects to it, so EVM transactions can be signed and sent from a terminal-first workflow while a familiar browser surface handles interaction. A proof of concept exploring where a wallet's trust boundary should sit.</p>
+                <div class="detail-extra">
 
                 <h2>KEY FEATURES</h2>
                 <div class="feature-list">
@@ -82,6 +83,7 @@
                     <br>WORKSPACE: cargo workspace with a dedicated vault crate
                     <br>BRIDGE: Rust daemon connects to a Chrome front end
                 </div>
+                </div>
 
                 <h2>LINKS</h2>
                 <div class="links-grid">
@@ -101,6 +103,7 @@
     </div>
 
     <script src="../scripts/project.js"></script>
+    <script src="../scripts/tour.js"></script>
     <script src="../scripts/mobile-enhancements.js"></script>
 </body>
 </html>

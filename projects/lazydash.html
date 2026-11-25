@@ -46,7 +46,8 @@
 
             <div class="pixel-border">
                 <h2>PROJECT OVERVIEW</h2>
-                <p>A keyboard-driven terminal dashboard for GitHub Projects, with activity and calendar views. It can back local issues with git-local-issue for an offline-capable board.</p>
+                <p class="detail-overview">A keyboard-driven terminal dashboard for GitHub Projects, written in Go. It gives you multi-repo navigation, a roadmap view, and activity and calendar views derived from issue history, all without leaving the terminal. It can also back its issues with git-local-issue, so the board works fully offline and syncs through Git rather than depending on a hosted service.</p>
+                <div class="detail-extra">
 
                 <h2>KEY FEATURES</h2>
                 <div class="feature-list">
@@ -82,6 +83,7 @@
                     <br>VIEWS: activity and calendar from issue history
                     <br>BACKEND: optional git-local-issue for offline work
                 </div>
+                </div>
 
                 <h2>LINKS</h2>
                 <div class="links-grid">
@@ -101,6 +103,7 @@
     </div>
 
     <script src="../scripts/project.js"></script>
+    <script src="../scripts/tour.js"></script>
     <script src="../scripts/mobile-enhancements.js"></script>
 </body>
 </html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infrastructure - 0xheartcode</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/project.css">
+    <link rel="stylesheet" href="../styles/responsive.css">
+    <link rel="stylesheet" href="../styles/mobile-styles.css"></head>
+<body>
+    <div class="container">
+        <div class="screen">
+            <div class="status-bar">
+                SKILL ▲▼ Infrastructure
+            </div>
+
+            <h1>Infrastructure</h1>
+
+            <div class="menu-item" onclick="window.location.href='../index.html#skills'">
+                ← BACK TO SKILLS
+            </div>
+
+            <div class="pixel-border">
+                <h2>USED IN 2 PROJECTS</h2>
+                <div class="project-grid">
+                    <div class="menu-item" onclick="window.location.href='../projects/flightdeck.html'">
+                        <h3>FLIGHTDECK</h3>
+                        <p>Self-hosted deployment control plane for containers. Railway-style UI, your own hardware.</p>
+                        <small>TECH: Rust + TypeScript</small>
+                    </div>
+                    <div class="menu-item" onclick="window.location.href='../projects/counter-index.html'">
+                        <h3>COUNTER-INDEX</h3>
+                        <p>A high-throughput OP_NET data indexer: index, store and stream on-chain data.</p>
+                        <small>TECH: TypeScript + Solidity</small>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="status-bar" style="text-align: center;">
+            <marquee behavior="scroll" direction="left">
+                DEVéLOPER: 0xheartcode ▲▼ Press ESC to go back
+            </marquee>
+        </div>
+    </div>
+
+    <script src="../scripts/mobile-enhancements.js"></script>
+    <script>
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' || e.key === 'Backspace') {
+          window.location.href = '../index.html#skills';
+        }
+      });
+    </script>
+</body>
+</html>

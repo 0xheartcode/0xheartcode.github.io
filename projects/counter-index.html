@@ -34,7 +34,7 @@
                         </div>
                         <div class="stat">
                             <span class="stat-label">TECH</span>
-                            <span class="stat-value">TYPESCRIPT • SOLIDITY • DOCKER</span>
+                            <span class="stat-value">TYPESCRIPT • SOLIDITY • DOCKER • INFRASTRUCTURE</span>
                         </div>
                         <div class="stat">
                             <span class="stat-label">LAST UPDATED</span>
@@ -46,7 +46,8 @@
 
             <div class="pixel-border">
                 <h2>PROJECT OVERVIEW</h2>
-                <p>A high-throughput OP_NET data indexer: index, store and stream on-chain data. The read-side infrastructure for building on OP_NET, smart contracts on Bitcoin.</p>
+                <p class="detail-overview">A high-throughput OP_NET data indexer: index, store and stream on-chain data. The read-side infrastructure for building on OP_NET, smart contracts on Bitcoin. It ingests blocks, normalizes events and exposes them to downstream services over a routing-aware, read-only surface, so applications can query OP_NET state without each running their own node.</p>
+                <div class="detail-extra">
 
                 <h2>KEY FEATURES</h2>
                 <div class="feature-list">
@@ -78,10 +79,12 @@
                     <br>[✓] TypeScript
                     <br>[✓] Solidity
                     <br>[✓] Docker
+                    <br>[✓] Infrastructure
                     <br>
                     <br> &gt; ./details.sh
                     <br>PIPELINE: index, store and stream on-chain data
                     <br>DEPLOY: containerized TypeScript services
+                </div>
                 </div>
 
                 <h2>LINKS</h2>
@@ -102,6 +105,7 @@
     </div>
 
     <script src="../scripts/project.js"></script>
+    <script src="../scripts/tour.js"></script>
     <script src="../scripts/mobile-enhancements.js"></script>
 </body>
 </html>

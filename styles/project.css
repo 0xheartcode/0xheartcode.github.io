@@ -175,3 +175,7 @@
   font-family: 'Press Start 2P', cursive;
   text-decoration: none;
 }
+
+/* SIMPLE / FULL toggle on project detail pages */
+body.detail-simple .detail-extra { display: none; }
+body.detail-simple .detail-overview { font-size: 1.15em; line-height: 1.6; }

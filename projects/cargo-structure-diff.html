@@ -46,7 +46,8 @@
 
             <div class="pixel-border">
                 <h2>PROJECT OVERVIEW</h2>
-                <p>A deterministic CI gate for Rust architecture. It builds a structural IR of a crate and fails the build when its module architecture drifts, turning 'keep it clean' into an automated check.</p>
+                <p class="detail-overview">A deterministic CI gate for Rust architecture, published on crates.io. It builds a stable structural IR of a crate, its modules, their relationships and public surface, then diffs that against a baseline and fails the build when the architecture drifts from what was agreed. It turns 'keep the structure clean' from a review-time opinion into an automated, reproducible check, so large refactors and AI-generated changes cannot quietly erode a codebase's shape.</p>
+                <div class="detail-extra">
 
                 <h2>KEY FEATURES</h2>
                 <div class="feature-list">
@@ -82,6 +83,7 @@
                     <br>IR: stable structural representation of a crate
                     <br>GATE: fails the build on architecture drift
                 </div>
+                </div>
 
                 <h2>LINKS</h2>
                 <div class="links-grid">
@@ -101,6 +103,7 @@
     </div>
 
     <script src="../scripts/project.js"></script>
+    <script src="../scripts/tour.js"></script>
     <script src="../scripts/mobile-enhancements.js"></script>
 </body>
 </html>

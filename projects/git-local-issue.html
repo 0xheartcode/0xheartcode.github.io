@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIT-LOCAL-ISSUE (GLI) - 0xheartcode</title>
+    <title>GIT-LOCAL-ISSUE - 0xheartcode</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../styles/main.css">
     <link rel="stylesheet" href="../styles/project.css">
@@ -13,10 +13,10 @@
     <div class="container">
         <div class="screen">
             <div class="status-bar">
-                PROJECT DETAILS ▲▼ GIT-LOCAL-ISSUE (GLI)
+                PROJECT DETAILS ▲▼ GIT-LOCAL-ISSUE
             </div>
 
-            <h1>GIT-LOCAL-ISSUE (GLI)</h1>
+            <h1>GIT-LOCAL-ISSUE</h1>
 
             <div class="menu-item" onclick="window.location.href='../index.html#projects'">
                 ← BACK TO PROJECTS
@@ -46,7 +46,8 @@
 
             <div class="pixel-border">
                 <h2>PROJECT OVERVIEW</h2>
-                <p>A distributed, offline-first issue tracker that stores issues natively in Git under refs/issues/*. No external database and no server: issues travel with the repo and sync over ordinary git.</p>
+                <p class="detail-overview">A distributed, offline-first issue tracker that stores issues natively in Git under refs/issues/*. No external database and no server: issues travel with the repo and sync over ordinary git. Each issue has a permanent UUIDv7 handle with human-friendly display numbers, and the whole tracker ships as a single Rust binary published to crates.io.</p>
+                <div class="detail-extra">
 
                 <h2>KEY FEATURES</h2>
                 <div class="feature-list">
@@ -82,6 +83,7 @@
                     <br>STORAGE: issues in refs/issues/* with UUIDv7 ids
                     <br>SYNC: travels with the repo, no server required
                 </div>
+                </div>
 
                 <h2>LINKS</h2>
                 <div class="links-grid">
@@ -101,6 +103,7 @@
     </div>
 
     <script src="../scripts/project.js"></script>
+    <script src="../scripts/tour.js"></script>
     <script src="../scripts/mobile-enhancements.js"></script>
 </body>
 </html>

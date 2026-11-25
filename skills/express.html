@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Express - 0xheartcode</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/project.css">
+    <link rel="stylesheet" href="../styles/responsive.css">
+    <link rel="stylesheet" href="../styles/mobile-styles.css"></head>
+<body>
+    <div class="container">
+        <div class="screen">
+            <div class="status-bar">
+                SKILL ▲▼ Express
+            </div>
+
+            <h1>Express</h1>
+
+            <div class="menu-item" onclick="window.location.href='../index.html#skills'">
+                ← BACK TO SKILLS
+            </div>
+
+            <div class="pixel-border">
+                <h2>USED IN 2 PROJECTS</h2>
+                <div class="project-grid">
+                    <div class="menu-item" onclick="window.location.href='../projects/nft-bridge-backend.html'">
+                        <h3>NFT BRIDGE BACKEND</h3>
+                        <p>Cross-chain bridge service for NFT transfers between Ethereum and NETWORK blockchain</p>
+                        <small>TECH: TypeScript + Express</small>
+                    </div>
+                    <div class="menu-item" onclick="window.location.href='../projects/backend-web3-skeleton.html'">
+                        <h3>BACKEND WEB3 SKELETON</h3>
+                        <p>Modular Express.js boilerplate with authentication and Docker integration</p>
+                        <small>TECH: TypeScript + Express</small>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="status-bar" style="text-align: center;">
+            <marquee behavior="scroll" direction="left">
+                DEVéLOPER: 0xheartcode ▲▼ Press ESC to go back
+            </marquee>
+        </div>
+    </div>
+
+    <script src="../scripts/mobile-enhancements.js"></script>
+    <script>
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' || e.key === 'Backspace') {
+          window.location.href = '../index.html#skills';
+        }
+      });
+    </script>
+</body>
+</html>

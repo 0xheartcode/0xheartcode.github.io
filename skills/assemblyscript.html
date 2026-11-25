@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AssemblyScript - 0xheartcode</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/project.css">
+    <link rel="stylesheet" href="../styles/responsive.css">
+    <link rel="stylesheet" href="../styles/mobile-styles.css"></head>
+<body>
+    <div class="container">
+        <div class="screen">
+            <div class="status-bar">
+                SKILL ▲▼ AssemblyScript
+            </div>
+
+            <h1>AssemblyScript</h1>
+
+            <div class="menu-item" onclick="window.location.href='../index.html#skills'">
+                ← BACK TO SKILLS
+            </div>
+
+            <div class="pixel-border">
+                <h2>USED IN 2 PROJECTS</h2>
+                <div class="project-grid">
+                    <div class="menu-item" onclick="window.location.href='../projects/polysubgraphs-skeleton.html'">
+                        <h3>POLYSUBGRAPHS SKELETON</h3>
+                        <p>A comprehensive subgraph monorepo for indexing DEX contracts with multi-environment deployment support</p>
+                        <small>TECH: TypeScript + GraphQL</small>
+                    </div>
+                    <div class="menu-item" onclick="window.location.href='../projects/nft-marketplace-subgraph.html'">
+                        <h3>NFT MARKETPLACE SUBGRAPH</h3>
+                        <p>A comprehensive subgraph implementation for tracking NFT marketplace activities and token transfers</p>
+                        <small>TECH: TypeScript + GraphQL</small>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="status-bar" style="text-align: center;">
+            <marquee behavior="scroll" direction="left">
+                DEVéLOPER: 0xheartcode ▲▼ Press ESC to go back
+            </marquee>
+        </div>
+    </div>
+
+    <script src="../scripts/mobile-enhancements.js"></script>
+    <script>
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' || e.key === 'Backspace') {
+          window.location.href = '../index.html#skills';
+        }
+      });
+    </script>
+</body>
+</html>

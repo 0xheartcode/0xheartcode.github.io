@@ -7,6 +7,21 @@ let selectedItemIndex = 0;
 let menuItems = [];
 let pages = {};
 
+// Projects view mode (SIMPLE = big, name-only) and guided-tour state
+let projectsSimpleView = false;
+let tourActive = false;
+let tourPaused = false;
+let tourPage = '';
+let tourPriorSimple = false;
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+// Fire a Umami custom event (safe no-op if Umami is blocked or not loaded)
+function track(event, data) {
+    if (window.umami) {
+        try { data ? umami.track(event, data) : umami.track(event); } catch (e) {}
+    }
+}
+
 // Function to update which menu items we're tracking based on current page
 function updateSelectableItems() {
     // Get all menu items in the current screen
@@ -45,7 +60,134 @@ function skillSlug(s) {
 }
 // Open a dedicated skill page listing the projects that use it
 function goToSkillPage(skill) {
+    track('skill_view', { skill: skill });
     window.location.href = 'skills/' + skillSlug(skill) + '.html';
+}
+
+// Hook used by the cross-page guided tour (tour.js) to switch SPA screens
+window.__tourShowScreen = function (page) {
+    navigateToPage(page);
+    currentScreen = page;
+    selectedItemIndex = 0;
+    updateSelectableItems();
+};
+
+// Toggle the projects screen between SIMPLE (big, name-only) and FULL views
+// Apply the SIMPLE/FULL view to the projects list (class + button label only)
+function applyViewMode(simple) {
+    projectsSimpleView = simple;
+    document.body.classList.toggle('simple-view', simple);
+    const btn = document.getElementById('view-fab-btn');
+    if (btn) btn.textContent = simple ? '▦ SIMPLE' : '▦ FULL';
+}
+// User action: apply + persist (shared with project detail pages) + track
+function setSimpleView(simple) {
+    applyViewMode(simple);
+    try { localStorage.setItem('view-mode', simple ? 'simple' : 'full'); } catch (e) {}
+    track('view_mode', { mode: simple ? 'simple' : 'full' });
+}
+
+// Banner + bottom progress bar shown during the guided tour
+function showTourBanner(on) {
+    let b = document.getElementById('tour-banner');
+    let p = document.getElementById('tour-progress');
+    if (on) {
+        if (!b) {
+            b = document.createElement('div');
+            b.id = 'tour-banner';
+            document.body.appendChild(b);
+        }
+        if (!p) {
+            p = document.createElement('div');
+            p.id = 'tour-progress';
+            p.innerHTML = '<div id="tour-progress-fill"></div>';
+            document.body.appendChild(p);
+        }
+        updateTourBanner();
+    } else {
+        if (b) b.remove();
+        if (p) p.remove();
+    }
+}
+
+function updateTourBanner() {
+    const b = document.getElementById('tour-banner');
+    if (!b) return;
+    const where = (tourPage || 'main').toUpperCase();
+    b.textContent = tourPaused
+        ? '❚❚ TOUR PAUSED · ' + where + ' · any key = resume, click = stop'
+        : '▶ GUIDED TOUR · ' + where + ' · any key = pause, click = stop';
+}
+
+function setTourProgress(frac) {
+    const fill = document.getElementById('tour-progress-fill');
+    if (fill) fill.style.width = (Math.max(0, Math.min(1, frac)) * 100) + '%';
+}
+
+// A pausable wait that drives the bottom progress bar; resolves false if the tour was stopped
+function tourDwell(ms) {
+    return new Promise((resolve) => {
+        let elapsed = 0;
+        const tick = 50;
+        setTourProgress(0);
+        const id = setInterval(() => {
+            if (!tourActive) { clearInterval(id); resolve(false); return; }
+            if (tourPaused) return;
+            elapsed += tick;
+            setTourProgress(elapsed / ms);
+            if (elapsed >= ms) { clearInterval(id); resolve(true); }
+        }, tick);
+    });
+}
+
+async function gotoTourPage(page) {
+    tourPage = page;
+    await navigateToPage(page);
+    currentScreen = page;
+    selectedItemIndex = 0;
+    updateSelectableItems();
+    updateTourBanner();
+}
+
+// Hands-free guided tour: cycle through the screens in simple view
+async function startGuidedTour() {
+    if (tourActive) { stopGuidedTour(); return; }
+    tourActive = true;
+    tourPaused = false;
+    track('guide_tour');
+    tourPriorSimple = projectsSimpleView;
+    applyViewMode(true);
+    const fabEl = document.getElementById('view-fab');
+    if (fabEl) fabEl.classList.add('tour-hidden');
+    showTourBanner(true);
+    await gotoTourPage('main');
+    const sequence = ['projects', 'skills', 'contact', 'about', 'main'];
+    for (const page of sequence) {
+        const ok = await tourDwell(4000);
+        if (!ok || !tourActive) return;
+        await gotoTourPage(page);
+    }
+    if (tourActive) {
+        const ok = await tourDwell(3000);
+        if (ok) stopGuidedTour();
+    }
+}
+
+function toggleTourPause() {
+    if (!tourActive) return;
+    tourPaused = !tourPaused;
+    updateTourBanner();
+}
+
+function stopGuidedTour() {
+    if (!tourActive) return;
+    tourActive = false;
+    tourPaused = false;
+    tourPage = '';
+    showTourBanner(false);
+    applyViewMode(tourPriorSimple);
+    const fabEl = document.getElementById('view-fab');
+    if (fabEl) fabEl.classList.remove('tour-hidden');
 }
 
 // Function to navigate to selected item
@@ -56,6 +198,19 @@ function navigateToSelected() {
         // Case 0: Skill tile -> open that skill's page
         if (selectedItem.dataset.skill) {
             goToSkillPage(selectedItem.dataset.skill);
+            return;
+        }
+
+        // Case 0b: Guided-tour button
+        if (selectedItem.id === 'guide-btn') {
+            if (window.GuidedTour) window.GuidedTour.start();
+            return;
+        }
+
+        // Case 0d: Unlocked CV entry
+        if (selectedItem.id === 'cv-menu') {
+            track('cv_menu_click');
+            window.location.href = 'cv/';
             return;
         }
 
@@ -93,6 +248,7 @@ function navigateToSelected() {
 
 // Helper function to reuse navigation logic
 async function navigateToPage(targetPage) {
+    if (!tourActive) track('nav', { to: targetPage });
     const loader = document.createElement('div');
     loader.className = 'loading-bar';
     document.body.appendChild(loader);
@@ -145,12 +301,13 @@ async function loadMainPageProjects() {
         
         // Filter active projects
         const activeProjects = projects.filter(project => project.status === 'active');
-        
+
         // Clear existing content
         mainProjectGrid.innerHTML = '';
-        
-        // Show only up to 2 active projects on the main page
-        const projectsToShow = activeProjects.slice(0, 2);
+
+        // Show the featured projects on the main page (up to 4); else the first 4 active
+        const featured = activeProjects.filter(project => project.featured);
+        const projectsToShow = (featured.length ? featured : activeProjects).slice(0, 4);
         
         // Add each active project
         projectsToShow.forEach(project => {
@@ -166,6 +323,7 @@ async function loadMainPageProjects() {
             
             // Make the project item clickable to go to project details
             projectElement.addEventListener('click', () => {
+                track('project_view', { project: project.slug });
                 window.location.href = `projects/${project.slug}.html`;
             });
             
@@ -259,6 +417,11 @@ async function loadProjects() {
                 <small>TECH: ${techString}</small>
                 <a href="projects/${project.slug}.html" class="project-link">VIEW DETAILS</a>
             `;
+            projectElement.addEventListener('click', (e) => {
+                track('project_view', { project: project.slug });
+                if (e.target.closest('.project-link')) return;
+                window.location.href = `projects/${project.slug}.html`;
+            });
 
             projectGrid.appendChild(projectElement);
         });
@@ -332,10 +495,10 @@ async function loadSkills() {
         
         const projects = await response.json();
 
-        // Build the skills map from active projects only, so the skill set
-        // reflects the current stack (Rust / tooling) rather than archived web3 work.
+        // Build the skills map from all projects (active + archived) so the skill set
+        // reflects the full breadth of experience.
         const skillMap = new Map();
-        projects.filter(project => project.status === 'active').forEach(project => {
+        projects.forEach(project => {
             project.tech.forEach(skill => {
                 skillMap.set(skill, (skillMap.get(skill) || 0) + 1);
             });
@@ -543,9 +706,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 document.body.appendChild(loader);
                 loader.style.display = 'block';
 
-                await new Promise(resolve => setTimeout(resolve, 300)); // Shorter wait for better UX
-
-                // Hide all pages during transition
+                // Hide all pages during transition (screens are already in memory: instant, no fake wait)
                 Object.values(pages).forEach(page => page.style.display = 'none');
                 
                 // Load page-specific data if needed
@@ -620,6 +781,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // Handle keyboard navigation
     document.addEventListener('keydown', (event) => {
+        if (tourActive) { toggleTourPause(); event.preventDefault(); return; }
         switch (event.key) {
             case 'ArrowUp':
                 selectedItemIndex = (selectedItemIndex - 1 + menuItems.length) % menuItems.length;
@@ -635,6 +797,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                 
             case 'Enter':
                 navigateToSelected();
+                event.preventDefault();
+                break;
+
+            case 's':
+            case 'S':
+                setSimpleView(!projectsSimpleView);
                 event.preventDefault();
                 break;
                 
@@ -688,7 +856,38 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // Initialize the selectable items for the main menu
     updateSelectableItems();
-    
+
+    // Guided tour + simple/full view controls
+    const guideBtn = document.getElementById('guide-btn');
+    if (guideBtn) guideBtn.addEventListener('click', (e) => { e.stopPropagation(); if (window.GuidedTour) window.GuidedTour.start(); });
+    document.addEventListener('click', () => { if (tourActive) stopGuidedTour(); });
+
+    // Floating SIMPLE/FULL control + arrow-key hint (bottom-right), replaces the old menu item
+    const fab = document.createElement('div');
+    fab.id = 'view-fab';
+    fab.innerHTML = '<div class="vf-hint">◂ ▴ ▾ ▸ navigate</div><button class="vf-toggle" id="view-fab-btn">▦ FULL</button>';
+    document.body.appendChild(fab);
+    document.getElementById('view-fab-btn').addEventListener('click', () => setSimpleView(!projectsSimpleView));
+
+    // Apply the saved SIMPLE/FULL preference (shared with project detail pages)
+    try { if (localStorage.getItem('view-mode') === 'simple') applyViewMode(true); } catch (e) {}
+
+    // Reveal a CV entry on the main menu for visitors who have already unlocked it
+    try {
+        if (localStorage.getItem('cv-access') === '1') {
+            const menu = document.querySelector('#main-menu .pixel-border');
+            if (menu && !document.getElementById('cv-menu')) {
+                const cv = document.createElement('div');
+                cv.className = 'menu-item';
+                cv.id = 'cv-menu';
+                cv.textContent = '★ CV (UNLOCKED)';
+                cv.addEventListener('click', () => { track('cv_menu_click'); window.location.href = 'cv/'; });
+                menu.insertBefore(cv, menu.firstChild);
+                updateSelectableItems();
+            }
+        }
+    } catch (e) {}
+
     // When page changes, update the selectable items
     function updateCurrentScreen() {
         for (const [name, page] of Object.entries(pages)) {

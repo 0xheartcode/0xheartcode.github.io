@@ -34,7 +34,7 @@
                         </div>
                         <div class="stat">
                             <span class="stat-label">TECH</span>
-                            <span class="stat-value">RUST • TYPESCRIPT • REACT • DOCKER</span>
+                            <span class="stat-value">RUST • TYPESCRIPT • REACT • DOCKER • INFRASTRUCTURE • CI/CD</span>
                         </div>
                         <div class="stat">
                             <span class="stat-label">LAST UPDATED</span>
@@ -46,7 +46,8 @@
 
             <div class="pixel-border">
                 <h2>PROJECT OVERVIEW</h2>
-                <p>A self-hosted deployment control plane for containers with Railway-style ergonomics on your own hardware. A small Rust agent on each host discovers labelled containers and streams their logs, metrics and status over WebSocket to a TypeScript control plane and a React UI, with gated restart and redeploy from the browser.</p>
+                <p class="detail-overview">A self-hosted deployment control plane for containers with Railway-style ergonomics on your own hardware. A small Rust agent on each host discovers labelled containers and streams their logs, metrics and status over WebSocket to a TypeScript control plane and a React UI, with gated restart and redeploy from the browser.</p>
+                <div class="detail-extra">
 
                 <h2>KEY FEATURES</h2>
                 <div class="feature-list">
@@ -104,6 +105,8 @@
                     <br>[✓] TypeScript
                     <br>[✓] React
                     <br>[✓] Docker
+                    <br>[✓] Infrastructure
+                    <br>[✓] CI/CD
                     <br>
                     <br> &gt; ./details.sh
                     <br>CORE: Rust agent + TypeScript control plane + React 19 UI
@@ -111,6 +114,7 @@
                     <br>AUTH: OIDC/JWT roles, constant-time agent tokens, local accounts (scrypt)
                     <br>OBSERVABILITY: optional Loki / Grafana / Prometheus stack
                     <br>TIERS: lite / medium / full via FD_PROFILE flags
+                </div>
                 </div>
 
                 <h2>LINKS</h2>
@@ -131,6 +135,7 @@
     </div>
 
     <script src="../scripts/project.js"></script>
+    <script src="../scripts/tour.js"></script>
     <script src="../scripts/mobile-enhancements.js"></script>
 </body>
 </html>

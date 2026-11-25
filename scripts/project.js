@@ -1,9 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Handle keyboard shortcuts
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Backspace' || e.key === 'Escape') {
-            // Go back to projects page when B is pressed
+        if (e.key === 'Backspace' || e.key === 'Escape' || e.key === 'ArrowLeft') {
             window.location.href = '../index.html#projects';
+        } else if (e.key === 'ArrowDown') {
+            window.scrollBy({ top: 240, behavior: 'smooth' });
+            e.preventDefault();
+        } else if (e.key === 'ArrowUp') {
+            window.scrollBy({ top: -240, behavior: 'smooth' });
+            e.preventDefault();
         }
     });
     
@@ -111,4 +116,51 @@ document.addEventListener('DOMContentLoaded', () => {
         box.innerHTML = '';
         box.appendChild(canvas);
     });
+
+    // SIMPLE/FULL for project detail pages: wrap the "extra" sections (archived pages are not
+    // pre-wrapped), then show a floating toggle that shares the view-mode preference with the site.
+    (function () {
+        // Wrap sections if the page has no .detail-extra container yet
+        if (!document.querySelector('.detail-extra')) {
+            let content = null;
+            document.querySelectorAll('.pixel-border').forEach(b => {
+                if (b.querySelector('h2') && /PROJECT OVERVIEW/i.test(b.textContent)) content = b;
+            });
+            if (content) {
+                let section = null;
+                Array.from(content.children).forEach(el => {
+                    if (el.tagName === 'H2') section = el.textContent.trim().toUpperCase();
+                    const keep = section === 'PROJECT OVERVIEW' || section === 'LINKS';
+                    if (section === 'PROJECT OVERVIEW' && el.tagName === 'P') el.classList.add('detail-overview');
+                    if (section && !keep) el.classList.add('detail-extra');
+                });
+            }
+        }
+        if (!document.querySelector('.detail-extra')) return; // nothing to toggle
+
+        const isSimple = () => document.body.classList.contains('detail-simple');
+        function setDetailSimple(simple) {
+            document.body.classList.toggle('detail-simple', simple);
+            const b = document.getElementById('view-fab-btn');
+            if (b) b.textContent = simple ? '▦ SIMPLE' : '▦ FULL';
+            try { localStorage.setItem('view-mode', simple ? 'simple' : 'full'); } catch (e) {}
+        }
+
+        // Floating toggle (bottom-right); no arrow hint on detail pages
+        const fab = document.createElement('div');
+        fab.id = 'view-fab';
+        fab.innerHTML = '<div class="vf-hint">◂ ▴ ▾ ▸ navigate</div><button class="vf-toggle" id="view-fab-btn">▦ FULL</button>';
+        document.body.appendChild(fab);
+        document.getElementById('view-fab-btn').addEventListener('click', () => setDetailSimple(!isSimple()));
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 's' || e.key === 'S') setDetailSimple(!isSimple());
+        });
+
+        // Apply the saved preference on load
+        let saved = false;
+        try { saved = localStorage.getItem('view-mode') === 'simple'; } catch (e) {}
+        document.body.classList.toggle('detail-simple', saved);
+        const b0 = document.getElementById('view-fab-btn');
+        if (b0) b0.textContent = saved ? '▦ SIMPLE' : '▦ FULL';
+    })();
 });

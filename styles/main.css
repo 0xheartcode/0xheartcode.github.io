@@ -51,8 +51,10 @@ body {
 .menu-item.selected::before {
     content: "►";
     position: absolute;
-    left: -0.8em;
-    animation: blink 1s step-end infinite;
+    left: -1em;
+    font-size: 1.15em;
+    line-height: 1;
+    animation: blink 1.6s step-end infinite;
 }
 
 @keyframes blink {
@@ -106,7 +108,7 @@ body {
     left: 0;
     right: 0;
     animation: load 1s linear;
-    display: none;
+    display: none !important; /* pixel-boot is the only loader; no thin transition bar */
 }
 
 @keyframes load {
@@ -245,4 +247,96 @@ body {
   display: block;
   margin-top: 6px;
   font-size: 0.7em;
+}
+
+/* SIMPLE project view: bigger, name-only tiles (toggled on the projects screen) */
+body.simple-view #projects .project-grid .menu-item p,
+body.simple-view #projects .project-grid .menu-item small,
+body.simple-view #projects .project-grid .menu-item .project-link {
+  display: none;
+}
+body.simple-view #projects .project-grid .menu-item {
+  padding: 24px 12px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 90px;
+}
+body.simple-view #projects .project-grid .menu-item h3 {
+  font-size: 1.4em;
+  margin: 0;
+}
+
+/* Guided-tour banner (above the progress bar, no blink) */
+#tour-banner {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #000;
+  color: #fff;
+  padding: 8px 14px;
+  border: 2px solid #fff;
+  font-size: 0.75em;
+  z-index: 1001;
+  text-align: center;
+  max-width: 92vw;
+}
+
+/* Guided-tour bottom progress bar (fills over each page's dwell time) */
+#tour-progress {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: #ccc;
+  z-index: 1000;
+}
+#tour-progress-fill {
+  height: 100%;
+  width: 0;
+  background: #000;
+  transition: width 0.05s linear;
+}
+
+/* Floating SIMPLE/FULL control (+ arrow-key hint on the main site) */
+#view-fab {
+  position: fixed;
+  bottom: 14px;
+  right: 14px;
+  z-index: 900;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+#view-fab.tour-hidden { display: none; }
+#view-fab .vf-hint {
+  background: #000;
+  color: #fff;
+  font-size: 0.55em;
+  padding: 3px 7px;
+  letter-spacing: 1px;
+  border: 2px solid #000;
+}
+#view-fab .vf-toggle {
+  background: #e0e0e0;
+  color: #000;
+  border: 2px solid #000;
+  padding: 7px 11px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.7em;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.2);
+}
+#view-fab .vf-toggle:hover { background: #000; color: #fff; }
+
+/* Mobile/tablet tuning for the floating control and guided-tour UI (touch-primary) */
+@media (max-width: 768px) {
+  #view-fab { bottom: 10px; right: 10px; gap: 4px; }
+  #view-fab .vf-hint { display: none; } /* arrow-key hint is meaningless on touch */
+  #view-fab .vf-toggle { font-size: 0.65em; padding: 6px 9px; }
+  #tour-banner { font-size: 0.6em; bottom: 14px; padding: 6px 8px; max-width: 94vw; }
 }

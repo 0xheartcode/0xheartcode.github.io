@@ -4,8 +4,9 @@
     "name": "FLIGHTDECK",
     "shortDescription": "Self-hosted deployment control plane for containers. Railway-style UI, your own hardware.",
     "overview": "A self-hosted deployment control plane for containers with Railway-style ergonomics on your own hardware. A small Rust agent on each host discovers labelled containers and streams their logs, metrics and status over WebSocket to a TypeScript control plane and a React UI, with gated restart and redeploy from the browser.",
-    "tech": ["Rust", "TypeScript", "React", "Docker"],
+    "tech": ["Rust", "TypeScript", "React", "Docker", "Infrastructure", "CI/CD"],
     "status": "active",
+    "featured": true,
     "updated": "NOV 2026",
     "slug": "flightdeck",
     "link": "https://github.com/0xheartcode/Flightdeck",
@@ -31,7 +32,7 @@
     "id": "adw",
     "name": "ADW (AGENTIC DEV WORKFLOW)",
     "shortDescription": "A Python orchestrator for structured, crash-resumable AI agent runs.",
-    "overview": "Agentic Developer Workflow: a Python-level abstraction for running structured, repeatable AI agent workflows end to end, with crash-resume so an interrupted run picks up where it left off instead of starting over.",
+    "overview": "Agentic Developer Workflow: a Python orchestrator for running structured, repeatable AI agent workflows end to end. The run loop is split into per-kind step handlers with convergence signals and architectural gates, and it can suggest a workflow from the project's type. Tasks are idempotent, so a crashed or interrupted run resumes cleanly instead of starting over, and it wires git-local-issue as its issue sink and cargo-structure-diff as an architectural gate, keeping an agent's work both tracked and structurally honest.",
     "tech": ["Python", "AI Agents"],
     "status": "active",
     "updated": "NOV 2026",
@@ -51,8 +52,8 @@
     "id": "simharness",
     "name": "SIMHARNESS",
     "shortDescription": "A deterministic, genre-agnostic harness for running and replaying coding agents reproducibly.",
-    "overview": "A deterministic, genre-agnostic harness for running and replaying coding agents reproducibly: the eval substrate most agent setups lack. Built around a discrete-action seam with trace shrinking and porcelain action helpers.",
-    "tech": ["TypeScript", "AI Agents"],
+    "overview": "A deterministic, genre-agnostic harness for running and replaying coding agents reproducibly, the eval substrate most agent setups lack. It is built around a discrete-action seam, so the same core drives spatial and non-spatial workers alike, with trace shrinking to reduce a failing run down to its minimal reproduction and porcelain action helpers for writing scenarios. Auto-generated API docs and a one-command quality gate keep it CI-friendly.",
+    "tech": ["TypeScript", "AI Agents", "CI/CD"],
     "status": "active",
     "updated": "NOV 2026",
     "slug": "simharness",
@@ -71,7 +72,7 @@
     "id": "panekit",
     "name": "PANEKIT",
     "shortDescription": "Headless terminal-UI test harness in Rust. Drive and assert real TUI state, no screen-scraping.",
-    "overview": "A headless terminal-UI output and test harness in Rust (panedrive plus paneview). Drive and assert real TUI state instead of screen-scraping, with crash and false-pass detection for honest CI results.",
+    "overview": "A headless terminal-UI output and test harness in Rust, shipped as two crates: panedrive (the driver) and paneview (the state seam a terminal UI exposes). It lets an agent or a test press real keys and read real widget state instead of screen-scraping brittle text, so TUI behaviour can be asserted the way a web test asserts the DOM. It detects crashes and false passes, so a green run actually means the UI did what it claimed, and both crates are published to crates.io.",
     "tech": ["Rust", "TUI"],
     "status": "active",
     "updated": "OCT 2026",
@@ -91,7 +92,7 @@
     "id": "cargo-structure-diff",
     "name": "CARGO-STRUCTURE-DIFF",
     "shortDescription": "A Rust CI gate that fails the build when a crate's module architecture drifts.",
-    "overview": "A deterministic CI gate for Rust architecture. It builds a structural IR of a crate and fails the build when its module architecture drifts, turning 'keep it clean' into an automated check.",
+    "overview": "A deterministic CI gate for Rust architecture, published on crates.io. It builds a stable structural IR of a crate, its modules, their relationships and public surface, then diffs that against a baseline and fails the build when the architecture drifts from what was agreed. It turns 'keep the structure clean' from a review-time opinion into an automated, reproducible check, so large refactors and AI-generated changes cannot quietly erode a codebase's shape.",
     "tech": ["Rust", "CI/CD"],
     "status": "active",
     "updated": "NOV 2026",
@@ -109,11 +110,12 @@
   },
   {
     "id": "git-local-issue",
-    "name": "GIT-LOCAL-ISSUE (GLI)",
+    "name": "GIT-LOCAL-ISSUE",
     "shortDescription": "Distributed, offline-first issue tracker that stores issues as native Git refs. No server.",
-    "overview": "A distributed, offline-first issue tracker that stores issues natively in Git under refs/issues/*. No external database and no server: issues travel with the repo and sync over ordinary git.",
+    "overview": "A distributed, offline-first issue tracker that stores issues natively in Git under refs/issues/*. No external database and no server: issues travel with the repo and sync over ordinary git. Each issue has a permanent UUIDv7 handle with human-friendly display numbers, and the whole tracker ships as a single Rust binary published to crates.io.",
     "tech": ["Rust", "Git"],
     "status": "active",
+    "featured": true,
     "updated": "NOV 2026",
     "slug": "git-local-issue",
     "link": "https://github.com/0xheartcode/git-local-issue",
@@ -131,7 +133,7 @@
     "id": "lazydash",
     "name": "LAZYDASH",
     "shortDescription": "Keyboard-driven terminal dashboard for GitHub Projects, backed by local Git issues.",
-    "overview": "A keyboard-driven terminal dashboard for GitHub Projects, with activity and calendar views. It can back local issues with git-local-issue for an offline-capable board.",
+    "overview": "A keyboard-driven terminal dashboard for GitHub Projects, written in Go. It gives you multi-repo navigation, a roadmap view, and activity and calendar views derived from issue history, all without leaving the terminal. It can also back its issues with git-local-issue, so the board works fully offline and syncs through Git rather than depending on a hosted service.",
     "tech": ["Go", "TUI"],
     "status": "active",
     "updated": "NOV 2026",
@@ -151,9 +153,10 @@
     "id": "counter-index",
     "name": "COUNTER-INDEX",
     "shortDescription": "A high-throughput OP_NET data indexer: index, store and stream on-chain data.",
-    "overview": "A high-throughput OP_NET data indexer: index, store and stream on-chain data. The read-side infrastructure for building on OP_NET, smart contracts on Bitcoin.",
-    "tech": ["TypeScript", "Solidity", "Docker"],
+    "overview": "A high-throughput OP_NET data indexer: index, store and stream on-chain data. The read-side infrastructure for building on OP_NET, smart contracts on Bitcoin. It ingests blocks, normalizes events and exposes them to downstream services over a routing-aware, read-only surface, so applications can query OP_NET state without each running their own node.",
+    "tech": ["TypeScript", "Solidity", "Docker", "Infrastructure"],
     "status": "active",
+    "featured": true,
     "updated": "NOV 2026",
     "slug": "counter-index",
     "link": "https://github.com/CounterFinance/counter-index",
@@ -171,9 +174,10 @@
     "id": "maxibridge",
     "name": "MAXIBRIDGE",
     "shortDescription": "Cross-chain EVM to OP_NET bridge (smart contracts on Bitcoin). Audited by PeckShield.",
-    "overview": "A cross-chain bridge between EVM chains and OP_NET (smart contracts on Bitcoin), with wrapped-asset contracts. Audited by PeckShield, with every finding resolved.",
+    "overview": "A cross-chain bridge between EVM chains and OP_NET (smart contracts on Bitcoin), with wrapped-asset contracts. Audited by PeckShield, with every finding resolved. The suite covers the wrapped ERC20 and OP20 mint and burn paths on both sides, hardened with pause guards and exercised by a shared test harness that runs the EVM and OP_NET flows together.",
     "tech": ["Solidity", "Foundry", "Security"],
     "status": "active",
+    "featured": true,
     "updated": "JUN 2026",
     "slug": "maxibridge",
     "link": "https://github.com/0xheartcode/MaxiBridge-contracts",
@@ -191,7 +195,7 @@
     "id": "daemon-wallet",
     "name": "DAEMON-WALLET",
     "shortDescription": "A Rust terminal EVM wallet that bridges to the browser. Daemon core plus Chrome front end.",
-    "overview": "A Rust terminal EVM wallet (externally owned account) that bridges to Google Chrome. A daemon core with a dedicated vault crate plus a browser front end, exploring a terminal-first wallet UX.",
+    "overview": "A Rust terminal EVM wallet (externally owned account) that bridges to the browser. It is a cargo workspace with a dedicated vault crate handling keys and signing, a long-running daemon core, and a Google Chrome front end that connects to it, so EVM transactions can be signed and sent from a terminal-first workflow while a familiar browser surface handles interaction. A proof of concept exploring where a wallet's trust boundary should sit.",
     "tech": ["Rust", "EVM"],
     "status": "active",
     "updated": "NOV 2026",
@@ -205,6 +209,106 @@
     "techDetails": [
       "WORKSPACE: cargo workspace with a dedicated vault crate",
       "BRIDGE: Rust daemon connects to a Chrome front end"
+    ]
+  },
+  {
+    "id": "solo-staking",
+    "name": "SOLO STAKING",
+    "shortDescription": "Liquid staking contracts for SOLO: stake SOLO, receive yield-bearing stSOLO.",
+    "overview": "Foundry smart contracts for liquid staking on SOLO Chain. Users stake SOLO and receive stSOLO, a yield-bearing token that represents their staked position and accrues rewards through a tracked exchange rate, so their liquidity stays usable while it is staked. The suite ships with a full Foundry test suite, gas-focused test scripts, and deployment tooling.",
+    "tech": ["Solidity", "Foundry", "EVM"],
+    "status": "active",
+    "updated": "SEP 2025",
+    "slug": "solo-staking",
+    "link": "https://github.com/SOLO-Chain-Devs/Contracts-SOLO-Staking",
+    "highlights": [
+      { "t": "LIQUID STAKING", "d": "Stake SOLO and receive stSOLO, a yield-bearing representation of the staked position." },
+      { "t": "FOUNDRY", "d": "Full Foundry test suite and deployment scripts." },
+      { "t": "GAS-AWARE", "d": "Gas-mining test scripts and exchange-rate accounting." }
+    ],
+    "techDetails": [
+      "TOKEN: SOLO -> stSOLO liquid staking",
+      "TESTS: Foundry suite and deploy scripts"
+    ]
+  },
+  {
+    "id": "solo-nft-marketplace",
+    "name": "SOLO NFT MARKETPLACE",
+    "shortDescription": "NFT marketplace supporting ERC721, ERC1155 and ERC6909, with safe-transfer patterns.",
+    "overview": "An NFT marketplace contract suite for SOLO Chain that handles ERC721, ERC1155 and ERC6909 tokens in a single marketplace, a rare breadth that spans classic NFTs, multi-tokens, and the newer minimal multi-token standard. It applies safe-transfer patterns throughout to protect assets across the listing and settlement paths, and is covered by a Foundry test suite exercising the trading flows.",
+    "tech": ["Solidity", "Foundry", "EVM"],
+    "status": "active",
+    "updated": "SEP 2025",
+    "slug": "solo-nft-marketplace",
+    "link": "https://github.com/SOLO-Chain-Devs/Contracts-NFTMarketplace",
+    "highlights": [
+      { "t": "MULTI-STANDARD", "d": "Supports ERC721, ERC1155 and ERC6909 in a single marketplace." },
+      { "t": "SAFE TRANSFERS", "d": "Uses safeTransferFrom and safeERC patterns for asset safety." },
+      { "t": "TESTED", "d": "Foundry coverage across listing and settlement paths." }
+    ],
+    "techDetails": [
+      "STANDARDS: ERC721 / ERC1155 / ERC6909",
+      "SAFETY: safe-transfer patterns, Foundry-tested"
+    ]
+  },
+  {
+    "id": "minefun",
+    "name": "MINEFUN",
+    "shortDescription": "Smart contracts for the MineFun project on SOLO Chain, with security-first patterns.",
+    "overview": "The on-chain contract suite for the MineFun project on SOLO Chain, written with security first. Reentrancy guards and the checks-effects-interactions pattern are applied throughout, with access restrictions on the sensitive entry points. It ships with a deployment pipeline and a TypeScript tooling layer, and a Foundry test suite covering the core flows.",
+    "tech": ["Solidity", "Foundry", "TypeScript"],
+    "status": "active",
+    "updated": "SEP 2025",
+    "slug": "minefun",
+    "link": "https://github.com/SOLO-Chain-Devs/Contracts-MineFun",
+    "highlights": [
+      { "t": "SECURITY PATTERNS", "d": "Reentrancy guards and checks-effects-interactions across the contracts." },
+      { "t": "DEPLOY PIPELINE", "d": "Deployment scripts with a TypeScript tooling layer." },
+      { "t": "TESTED", "d": "Foundry test suite." }
+    ],
+    "techDetails": [
+      "SECURITY: reentrancy guards, checks-effects-interactions",
+      "TOOLING: Foundry plus a TypeScript deploy layer"
+    ]
+  },
+  {
+    "id": "solo-gas-mining",
+    "name": "SOLO GAS MINING",
+    "shortDescription": "Gas / transaction mining system contracts for SOLO Chain.",
+    "overview": "Foundry smart contracts implementing a gas, or transaction, mining system for SOLO Chain, which rewards on-chain activity as a mechanism to bootstrap network usage. The contracts are measured with gas-focused test scripts so the incentive maths holds up under real transaction costs, and they ship with deployment tooling and a Foundry test suite.",
+    "tech": ["Solidity", "Foundry", "EVM"],
+    "status": "active",
+    "updated": "SEP 2025",
+    "slug": "solo-gas-mining",
+    "link": "https://github.com/SOLO-Chain-Devs/Contracts-Tx-Mining",
+    "highlights": [
+      { "t": "GAS MINING", "d": "Rewards transaction activity through an on-chain mining mechanism." },
+      { "t": "GAS-TESTED", "d": "Gas-focused test scripts and measurements." },
+      { "t": "FOUNDRY", "d": "Full Foundry suite and deploy scripts." }
+    ],
+    "techDetails": [
+      "MECHANISM: transaction / gas mining rewards",
+      "TESTS: gas-focused Foundry scripts"
+    ]
+  },
+  {
+    "id": "solo-depin-bridge",
+    "name": "SOLO DEPIN BRIDGE",
+    "shortDescription": "Cross-chain ERC721/1155 bridge to SOLO (as ERC6909) via MetaLayer.",
+    "overview": "A cross-chain bridge that moves ERC721 and ERC1155 tokens from other chains onto SOLO Chain, representing them as ERC6909. It integrates with MetaLayer for cross-chain messaging and is source-domain-aware, so the origin chain is accounted for when minting the bridged representation, an important safety property for any bridge. It is covered by a Foundry test suite exercising the bridge paths.",
+    "tech": ["Solidity", "Foundry", "Security"],
+    "status": "active",
+    "updated": "SEP 2025",
+    "slug": "solo-depin-bridge",
+    "link": "https://github.com/SOLO-Chain-Devs/Contracts-DePin",
+    "highlights": [
+      { "t": "CROSS-CHAIN", "d": "Bridges ERC721 and ERC1155 assets to SOLO as ERC6909." },
+      { "t": "METALAYER", "d": "Integrated with MetaLayer, with source-domain awareness on bridging." },
+      { "t": "TESTED", "d": "Foundry coverage of the bridge paths." }
+    ],
+    "techDetails": [
+      "BRIDGE: ERC721 / ERC1155 -> SOLO ERC6909 via MetaLayer",
+      "SAFETY: source-domain-aware, Foundry-tested"
     ]
   },
   {

@@ -114,11 +114,13 @@ ${detailLines}` : '';
 
             <div class="pixel-border">
                 <h2>PROJECT OVERVIEW</h2>
-                <p>${esc(p.overview || p.shortDescription)}</p>
+                <p class="detail-overview">${esc(p.overview || p.shortDescription)}</p>
+                <div class="detail-extra">
 ${featuresBlock}${archBlock}
                 <h2>TECHNICAL DETAILS</h2>
                 <div class="terminal"> &gt; ./tech_stack.sh
 ${techLines}${detailBlock}
+                </div>
                 </div>
 
                 <h2>LINKS</h2>
@@ -133,6 +135,7 @@ ${techLines}${detailBlock}
 ${FOOTER}
 
     <script src="../scripts/project.js"></script>
+    <script src="../scripts/tour.js"></script>
     <script src="../scripts/mobile-enhancements.js"></script>
 </body>
 </html>
@@ -192,10 +195,9 @@ for (const p of projects) {
   pCount++;
 }
 
-// --- generate skill pages from ACTIVE projects (matches the SKILLS screen counts) ---
-const active = projects.filter((p) => p.status === 'active');
+// --- generate skill pages from ALL projects (active + archived), matching the SKILLS screen ---
 const bySkill = new Map();
-for (const p of active) {
+for (const p of projects) {
   for (const t of p.tech || []) {
     if (!bySkill.has(t)) bySkill.set(t, []);
     bySkill.get(t).push(p);
